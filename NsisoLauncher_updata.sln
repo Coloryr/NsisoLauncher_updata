@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NsisoLauncher_updata", "src/NsisoLauncher_updata.csproj", "{2CA22C3B-0B44-4118-9147-437087714AAA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2CA22C3B-0B44-4118-9147-437087714AAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CA22C3B-0B44-4118-9147-437087714AAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CA22C3B-0B44-4118-9147-437087714AAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CA22C3B-0B44-4118-9147-437087714AAA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E974AF1E-1F59-4F2E-BDEB-FB0CFC7F4881}
+	EndGlobalSection
+EndGlobal

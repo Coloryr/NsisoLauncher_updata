@@ -1,0 +1,3 @@
+# NsisoLauncher_updata
+NsisoLauncher配套使用的mod自动更新器
+生成json文件
