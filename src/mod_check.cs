@@ -97,6 +97,7 @@ namespace NsisoLauncher_updata
             {
                 JToken modinfo = null;
                 updata_mod mod = new updata_mod();
+                mod.filename = fileName.Replace(path + "\\", "");
                 try
                 {
                     ZipFile zip = new ZipFile(fileName);
@@ -151,13 +152,13 @@ namespace NsisoLauncher_updata
                 IChecker checker = new MD5Checker();
                 checker.FilePath = fileName;
                 mod.check = checker.GetFileChecksum();
-                mod.local = fileName;
-                mod.url = server_info.server_local + fileName.Replace(path + "\\", "");
+                mod.local = fileName; 
+                mod.url = server_info.server_local + mod.filename;
                 return mod;
             }
             catch
             {
-                return new updata_mod { name = fileName.Replace(path + "\\", "") };
+                return null;
             }
         }
     }
