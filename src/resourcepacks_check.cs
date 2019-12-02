@@ -23,7 +23,7 @@ namespace NsisoLauncher_updata
                 mod.type = "材质";
                 mod.function = "add";
                 mod.name = mod.filename = a.Replace(path, "");
-                mod.url = server_info.server_local + @"\resourcepacks\" + mod.filename;
+                mod.url = server_info.server_local + @"/resourcepacks/" + mod.filename;
                 mod.check = checker.GetFileChecksum();
                 if (list.Contains(mod) == false)
                     list.Add(mod);

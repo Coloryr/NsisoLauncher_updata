@@ -45,7 +45,7 @@ namespace NsisoLauncher_updata
                 mod.type = "魔改";
                 mod.function = "add";
                 mod.name = mod.filename = file.Replace(path, "");
-                mod.url = server_info.server_local + @"\scripts\" + mod.filename;
+                mod.url = server_info.server_local + @"/scripts/" + mod.filename;
                 mod.check = checker.GetFileChecksum();
                 if (list.Contains(mod) == false)
                     list.Add(mod);

@@ -63,13 +63,7 @@ namespace NsisoLauncher_updata
         {
             public class Root
             {
-                /// <summary>
-                /// 
-                /// </summary>
                 public int modListVersion { get; set; }
-                /// <summary>
-                /// 
-                /// </summary>
                 public List<ModListItem> modList { get; set; }
             }
         }
@@ -152,7 +146,7 @@ namespace NsisoLauncher_updata
                 mod.type = "模组";
                 mod.function = "add";
                 mod.check = checker.GetFileChecksum();
-                mod.url = server_info.server_local + @"\mods\" + mod.filename;
+                mod.url = server_info.server_local + @"/mods/" + mod.filename;
                 return mod;
             }
             catch

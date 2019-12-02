@@ -23,7 +23,7 @@ namespace NsisoLauncher_updata
                 mod.type = "配置";
                 mod.function = "add";
                 mod.name = mod.filename = a.Replace(path, "");
-                mod.url = server_info.server_local + mod.filename;
+                mod.url = server_info.server_local + @"/" + mod.filename;
                 mod.check = checker.GetFileChecksum();
                 if (list.Contains(mod) == false)
                     list.Add(mod);
