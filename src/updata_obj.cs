@@ -22,7 +22,7 @@ namespace NsisoLauncher_updata
         /// <summary>
         /// mod列表
         /// </summary>
-        public List<updata_item> mods { get; set; }
+        public Dictionary<string, updata_item> mods { get; set; }
         /// <summary>
         /// 魔改列表
         /// </summary>
@@ -31,6 +31,10 @@ namespace NsisoLauncher_updata
         /// 配置文件压缩包
         /// </summary>
         public List<updata_item> config { get; set; }
+        /// <summary>
+        /// 配置文件压缩包
+        /// </summary>
+        public List<updata_item> resourcepacks { get; set; }
     }
 
     public class updata_item
@@ -59,5 +63,9 @@ namespace NsisoLauncher_updata
         /// 文件名字
         /// </summary>
         public string filename { get; set; }
+        /// <summary>
+        /// 操作
+        /// </summary>
+        public string function { get; set; }
     }
 }

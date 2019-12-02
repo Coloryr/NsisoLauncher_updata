@@ -73,20 +73,20 @@ namespace NsisoLauncher_updata
                 public List<ModListItem> modList { get; set; }
             }
         }
-        public List<updata_item> ReadModInfo(string path)
+        public Dictionary<string, updata_item> ReadModInfo(string path)
         {
             path += @"\mods\";
             if (!Directory.Exists(path))
             {
-                return new List<updata_item>();
+                return new Dictionary<string, updata_item>();
             }
             string[] files = Directory.GetFiles(path, "*.jar");
-            List<updata_item> list = new List<updata_item>();
+            Dictionary<string, updata_item> list = new Dictionary<string, updata_item>();
             foreach (string file in files)
             {
                 updata_item save = GetModsInfo(path, file);
-                if (list.Contains(save) == false)
-                    list.Add(save);
+                if (list.ContainsValue(save) == false)
+                    list.Add(save.name, save);
             }
             return list;
         }
@@ -150,8 +150,9 @@ namespace NsisoLauncher_updata
                 IChecker checker = new MD5Checker();
                 checker.FilePath = fileName;
                 mod.type = "模组";
+                mod.function = "add";
                 mod.check = checker.GetFileChecksum();
-                mod.url = server_info.server_local + mod.filename;
+                mod.url = server_info.server_local + @"\mods\" + mod.filename;
                 return mod;
             }
             catch

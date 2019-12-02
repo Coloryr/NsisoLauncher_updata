@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.listView_mods = new System.Windows.Forms.ListView();
+            this.type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.modid = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.md5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.url = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -47,7 +48,19 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.mods_server = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.old_json = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.old_mod = new System.Windows.Forms.Label();
+            this.old_resourcepacks = new System.Windows.Forms.Label();
+            this.old_scripts = new System.Windows.Forms.Label();
+            this.old_other = new System.Windows.Forms.Label();
+            this.new_other = new System.Windows.Forms.Label();
+            this.new_scripts = new System.Windows.Forms.Label();
+            this.new_resourcepacks = new System.Windows.Forms.Label();
+            this.new_mod = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.old_json_open = new System.Windows.Forms.OpenFileDialog();
+            this.old_json_clear = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,6 +93,11 @@
             this.listView_mods.UseCompatibleStateImageBehavior = false;
             this.listView_mods.View = System.Windows.Forms.View.Details;
             this.listView_mods.SelectedIndexChanged += new System.EventHandler(this.listView_mods_SelectedIndexChanged);
+            // 
+            // type
+            // 
+            this.type.Text = "类型";
+            this.type.Width = 40;
             // 
             // modid
             // 
@@ -133,7 +151,7 @@
             // INFO
             // 
             this.INFO.AutoSize = true;
-            this.INFO.Location = new System.Drawing.Point(686, 362);
+            this.INFO.Location = new System.Drawing.Point(686, 391);
             this.INFO.Name = "INFO";
             this.INFO.Size = new System.Drawing.Size(41, 12);
             this.INFO.TabIndex = 5;
@@ -207,16 +225,138 @@
             this.label3.TabIndex = 11;
             this.label3.Text = "服务器根目录";
             // 
-            // type
+            // old_json
             // 
-            this.type.Text = "类型";
-            this.type.Width = 40;
+            this.old_json.Location = new System.Drawing.Point(831, 357);
+            this.old_json.Name = "old_json";
+            this.old_json.Size = new System.Drawing.Size(104, 23);
+            this.old_json.TabIndex = 13;
+            this.old_json.Text = "导入旧资源json";
+            this.old_json.UseVisualStyleBackColor = true;
+            this.old_json.Click += new System.EventHandler(this.old_json_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(686, 199);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(77, 12);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "旧资源文件：";
+            // 
+            // old_mod
+            // 
+            this.old_mod.AutoSize = true;
+            this.old_mod.Location = new System.Drawing.Point(686, 220);
+            this.old_mod.Name = "old_mod";
+            this.old_mod.Size = new System.Drawing.Size(59, 12);
+            this.old_mod.TabIndex = 15;
+            this.old_mod.Text = "模组：xxx";
+            // 
+            // old_resourcepacks
+            // 
+            this.old_resourcepacks.AutoSize = true;
+            this.old_resourcepacks.Location = new System.Drawing.Point(686, 241);
+            this.old_resourcepacks.Name = "old_resourcepacks";
+            this.old_resourcepacks.Size = new System.Drawing.Size(71, 12);
+            this.old_resourcepacks.TabIndex = 16;
+            this.old_resourcepacks.Text = "材质包：xxx";
+            // 
+            // old_scripts
+            // 
+            this.old_scripts.AutoSize = true;
+            this.old_scripts.Location = new System.Drawing.Point(813, 220);
+            this.old_scripts.Name = "old_scripts";
+            this.old_scripts.Size = new System.Drawing.Size(41, 12);
+            this.old_scripts.TabIndex = 17;
+            this.old_scripts.Text = "魔改：";
+            // 
+            // old_other
+            // 
+            this.old_other.AutoSize = true;
+            this.old_other.Location = new System.Drawing.Point(813, 241);
+            this.old_other.Name = "old_other";
+            this.old_other.Size = new System.Drawing.Size(83, 12);
+            this.old_other.TabIndex = 18;
+            this.old_other.Text = "其他资源：xxx";
+            // 
+            // new_other
+            // 
+            this.new_other.AutoSize = true;
+            this.new_other.Location = new System.Drawing.Point(813, 317);
+            this.new_other.Name = "new_other";
+            this.new_other.Size = new System.Drawing.Size(83, 12);
+            this.new_other.TabIndex = 23;
+            this.new_other.Text = "其他资源：xxx";
+            // 
+            // new_scripts
+            // 
+            this.new_scripts.AutoSize = true;
+            this.new_scripts.Location = new System.Drawing.Point(813, 296);
+            this.new_scripts.Name = "new_scripts";
+            this.new_scripts.Size = new System.Drawing.Size(41, 12);
+            this.new_scripts.TabIndex = 22;
+            this.new_scripts.Text = "魔改：";
+            // 
+            // new_resourcepacks
+            // 
+            this.new_resourcepacks.AutoSize = true;
+            this.new_resourcepacks.Location = new System.Drawing.Point(686, 317);
+            this.new_resourcepacks.Name = "new_resourcepacks";
+            this.new_resourcepacks.Size = new System.Drawing.Size(71, 12);
+            this.new_resourcepacks.TabIndex = 21;
+            this.new_resourcepacks.Text = "材质包：xxx";
+            // 
+            // new_mod
+            // 
+            this.new_mod.AutoSize = true;
+            this.new_mod.Location = new System.Drawing.Point(686, 296);
+            this.new_mod.Name = "new_mod";
+            this.new_mod.Size = new System.Drawing.Size(59, 12);
+            this.new_mod.TabIndex = 20;
+            this.new_mod.Text = "模组：xxx";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(686, 275);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(77, 12);
+            this.label11.TabIndex = 19;
+            this.label11.Text = "新资源文件：";
+            // 
+            // old_json_open
+            // 
+            this.old_json_open.DefaultExt = "json";
+            this.old_json_open.Filter = "json文件|*.json";
+            // 
+            // old_json_clear
+            // 
+            this.old_json_clear.Location = new System.Drawing.Point(831, 386);
+            this.old_json_clear.Name = "old_json_clear";
+            this.old_json_clear.Size = new System.Drawing.Size(104, 23);
+            this.old_json_clear.TabIndex = 24;
+            this.old_json_clear.Text = "清除旧资源json";
+            this.old_json_clear.UseVisualStyleBackColor = true;
+            this.old_json_clear.Click += new System.EventHandler(this.old_json_clear_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(947, 450);
+            this.Controls.Add(this.old_json_clear);
+            this.Controls.Add(this.new_other);
+            this.Controls.Add(this.new_scripts);
+            this.Controls.Add(this.new_resourcepacks);
+            this.Controls.Add(this.new_mod);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.old_other);
+            this.Controls.Add(this.old_scripts);
+            this.Controls.Add(this.old_resourcepacks);
+            this.Controls.Add(this.old_mod);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.old_json);
             this.Controls.Add(this.mods_server);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.chose_mods);
@@ -262,6 +402,19 @@
         private System.Windows.Forms.TextBox mods_server;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ColumnHeader type;
+        private System.Windows.Forms.Button old_json;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label old_mod;
+        private System.Windows.Forms.Label old_resourcepacks;
+        private System.Windows.Forms.Label old_scripts;
+        private System.Windows.Forms.Label old_other;
+        private System.Windows.Forms.Label new_other;
+        private System.Windows.Forms.Label new_scripts;
+        private System.Windows.Forms.Label new_resourcepacks;
+        private System.Windows.Forms.Label new_mod;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.OpenFileDialog old_json_open;
+        private System.Windows.Forms.Button old_json_clear;
     }
 }
 

@@ -75,6 +75,7 @@
     <Compile Include="mod_check.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="resourcepacks_check.cs" />
     <Compile Include="scripts_check.cs" />
     <Compile Include="updata_obj.cs" />
     <EmbeddedResource Include="Form1.resx">

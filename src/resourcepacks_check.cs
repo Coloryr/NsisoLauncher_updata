@@ -4,14 +4,14 @@ using System.IO;
 
 namespace NsisoLauncher_updata
 {
-    class config_check
+    class resourcepacks_check
     {
-        public List<updata_item> ReadconfigInfo(string path)
+        public List<updata_item> ReadresourcepacksInfo(string path)
         {
-            path += @"\";
+            path += @"\resourcepacks\";
             if (!Directory.Exists(path))
             {
-                return null;
+                return new List<updata_item>();
             }
             List<updata_item> list = new List<updata_item>();
             string[] files = Directory.GetFiles(path, "*.zip");
@@ -20,10 +20,10 @@ namespace NsisoLauncher_updata
             {
                 checker.FilePath = a;
                 updata_item mod = new updata_item();
-                mod.type = "配置";
+                mod.type = "材质";
                 mod.function = "add";
                 mod.name = mod.filename = a.Replace(path, "");
-                mod.url = server_info.server_local + mod.filename;
+                mod.url = server_info.server_local + @"\resourcepacks\" + mod.filename;
                 mod.check = checker.GetFileChecksum();
                 if (list.Contains(mod) == false)
                     list.Add(mod);
