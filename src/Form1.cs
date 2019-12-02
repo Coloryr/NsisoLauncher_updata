@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -27,30 +25,48 @@ namespace NsisoLauncher_updata
             INFO.Text = "状态：更新列表中";
             Task.Factory.StartNew(() =>
             {
-                mod_check mod_check = new mod_check();
-                updata_obj.mods = mod_check.ReadModInfo(mods_t.Text);
-                if (updata_obj.mods.Count != 0)
+                updata_obj.mods = new mod_check().ReadModInfo(mods_t.Text);
+                updata_obj.scripts = new scripts_check().ReadscriptsInfo(mods_t.Text);
+                updata_obj.config = new config_check().ReadconfigInfo(mods_t.Text);
+                Action<int> action = (data) =>
                 {
-                    Action<int> action = (data) =>
+                    listView_mods.Items.Clear();
+                    if (updata_obj.mods.Count != 0)
                     {
-                        listView_mods.Items.Clear();
-                        foreach (updata_mod save in updata_obj.mods)
+                        foreach (updata_item save in updata_obj.mods)
                         {
-                            ListViewItem test = new ListViewItem(save.name);
-                            test.SubItems.Add(save.vision);
+                            ListViewItem test = new ListViewItem(save.type);
+                            test.SubItems.Add(save.name);
                             test.SubItems.Add(save.check);
                             test.SubItems.Add(save.url);
                             listView_mods.Items.Add(test);
-
                         }
-                        INFO.Text = "状态：就绪";
-                    };
-                    Invoke(action, 0);
-                }
-                else
-                {
+                    }
+                    if (updata_obj.scripts.Count != 0)
+                    {
+                        foreach (updata_item save in updata_obj.scripts)
+                        {
+                            ListViewItem test = new ListViewItem(save.type);
+                            test.SubItems.Add(save.name);
+                            test.SubItems.Add(save.check);
+                            test.SubItems.Add(save.url);
+                            listView_mods.Items.Add(test);
+                        }
+                    }
+                    if (updata_obj.config.Count != 0)
+                    {
+                        foreach (updata_item save in updata_obj.config)
+                        {
+                            ListViewItem test = new ListViewItem(save.type);
+                            test.SubItems.Add(save.name);
+                            test.SubItems.Add(save.check);
+                            test.SubItems.Add(save.url);
+                            listView_mods.Items.Add(test);
+                        }
+                    }
                     INFO.Text = "状态：等待操作";
-                }
+                };
+                Invoke(action, 0);
             });
         }
 

@@ -32,7 +32,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.listView_mods = new System.Windows.Forms.ListView();
             this.modid = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.modvision = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.md5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.url = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label1 = new System.Windows.Forms.Label();
@@ -48,6 +47,7 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.mods_server = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,13 +59,13 @@
             this.groupBox1.Size = new System.Drawing.Size(668, 426);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "mod列表";
+            this.groupBox1.Text = "资源列表";
             // 
             // listView_mods
             // 
             this.listView_mods.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.type,
             this.modid,
-            this.modvision,
             this.md5,
             this.url});
             this.listView_mods.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -83,13 +83,8 @@
             // 
             // modid
             // 
-            this.modid.Text = "MOD名称";
+            this.modid.Text = "资源名称";
             this.modid.Width = 150;
-            // 
-            // modvision
-            // 
-            this.modvision.Text = "MOD版本";
-            this.modvision.Width = 100;
             // 
             // md5
             // 
@@ -99,7 +94,7 @@
             // url
             // 
             this.url.Text = "下载地址";
-            this.url.Width = 203;
+            this.url.Width = 300;
             // 
             // label1
             // 
@@ -116,6 +111,7 @@
             this.packname_t.Name = "packname_t";
             this.packname_t.Size = new System.Drawing.Size(247, 21);
             this.packname_t.TabIndex = 2;
+            this.packname_t.Text = "modpack";
             // 
             // vision_t
             // 
@@ -123,6 +119,7 @@
             this.vision_t.Name = "vision_t";
             this.vision_t.Size = new System.Drawing.Size(247, 21);
             this.vision_t.TabIndex = 4;
+            this.vision_t.Text = "1.0.0";
             // 
             // label2
             // 
@@ -158,7 +155,7 @@
             this.re_mods.Name = "re_mods";
             this.re_mods.Size = new System.Drawing.Size(75, 23);
             this.re_mods.TabIndex = 7;
-            this.re_mods.Text = "刷新mods";
+            this.re_mods.Text = "刷新资源";
             this.re_mods.UseVisualStyleBackColor = true;
             this.re_mods.Click += new System.EventHandler(this.re_mods_Click);
             // 
@@ -176,7 +173,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(53, 12);
             this.label4.TabIndex = 8;
-            this.label4.Text = "mods目录";
+            this.label4.Text = "资源目录";
             // 
             // chose_mods
             // 
@@ -184,7 +181,7 @@
             this.chose_mods.Name = "chose_mods";
             this.chose_mods.Size = new System.Drawing.Size(75, 23);
             this.chose_mods.TabIndex = 10;
-            this.chose_mods.Text = "选择mods";
+            this.chose_mods.Text = "选择资源";
             this.chose_mods.UseVisualStyleBackColor = true;
             this.chose_mods.Click += new System.EventHandler(this.chose_mods_Click);
             // 
@@ -210,6 +207,11 @@
             this.label3.TabIndex = 11;
             this.label3.Text = "服务器根目录";
             // 
+            // type
+            // 
+            this.type.Text = "类型";
+            this.type.Width = 40;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -232,7 +234,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "NsisoLauncher专用mod更新器";
+            this.Text = "NsisoLauncher专用资源更新生成器";
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -244,7 +246,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ListView listView_mods;
         private System.Windows.Forms.ColumnHeader modid;
-        private System.Windows.Forms.ColumnHeader modvision;
         private System.Windows.Forms.ColumnHeader md5;
         private System.Windows.Forms.ColumnHeader url;
         private System.Windows.Forms.Label label1;
@@ -260,6 +261,7 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.TextBox mods_server;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ColumnHeader type;
     }
 }
 

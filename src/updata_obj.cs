@@ -22,19 +22,27 @@ namespace NsisoLauncher_updata
         /// <summary>
         /// mod列表
         /// </summary>
-        public List<updata_mod> mods { get; set; }
+        public List<updata_item> mods { get; set; }
+        /// <summary>
+        /// 魔改列表
+        /// </summary>
+        public List<updata_item> scripts { get; set; }
+        /// <summary>
+        /// 配置文件压缩包
+        /// </summary>
+        public List<updata_item> config { get; set; }
     }
 
-    public class updata_mod
+    public class updata_item
     {
         /// <summary>
-        /// mod名字
+        /// 资源类型
+        /// </summary>
+        public string type { get; set; }
+        /// <summary>
+        /// 资源名字
         /// </summary>
         public string name { get; set; }
-        /// <summary>
-        /// 版本
-        /// </summary>
-        public string vision { get; set; }
         /// <summary>
         /// MD5
         /// </summary>

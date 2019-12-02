@@ -3,7 +3,6 @@ using Newtonsoft.Json.Linq;
 using NsisoLauncherCore.Util.Checker;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
 
 namespace NsisoLauncher_updata
 {
@@ -74,30 +73,30 @@ namespace NsisoLauncher_updata
                 public List<ModListItem> modList { get; set; }
             }
         }
-        public List<updata_mod> ReadModInfo(string path)
+        public List<updata_item> ReadModInfo(string path)
         {
+            path += @"\mods\";
             if (!Directory.Exists(path))
             {
-                MessageBox.Show("请选择mods文件夹");
-                return new List<updata_mod>();
+                return new List<updata_item>();
             }
             string[] files = Directory.GetFiles(path, "*.jar");
-            List<updata_mod> list = new List<updata_mod>();
+            List<updata_item> list = new List<updata_item>();
             foreach (string file in files)
             {
-                updata_mod save = GetModsInfo(path, file);
-                    if (list.Contains(save) == false)
+                updata_item save = GetModsInfo(path, file);
+                if (list.Contains(save) == false)
                     list.Add(save);
             }
             return list;
         }
-        public updata_mod GetModsInfo(string path, string fileName)
+        public updata_item GetModsInfo(string path, string fileName)
         {
             try
             {
                 JToken modinfo = null;
-                updata_mod mod = new updata_mod();
-                mod.filename = fileName.Replace(path + "\\", "");
+                updata_item mod = new updata_item();
+                mod.filename = fileName.Replace(path, "");
                 try
                 {
                     ZipFile zip = new ZipFile(fileName);
@@ -141,18 +140,17 @@ namespace NsisoLauncher_updata
                     if (b.modid != null)
                     {
                         mod.name = b.name;
-                        mod.vision = b.version;
                     }
                 }
             a:
                 if (string.IsNullOrWhiteSpace(mod.name))
                 {
-                    mod.name = fileName.Replace(path + "\\", "");
+                    mod.name = fileName.Replace(path, "");
                 }
                 IChecker checker = new MD5Checker();
                 checker.FilePath = fileName;
+                mod.type = "模组";
                 mod.check = checker.GetFileChecksum();
-                mod.local = fileName; 
                 mod.url = server_info.server_local + mod.filename;
                 return mod;
             }
