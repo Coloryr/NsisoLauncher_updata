@@ -205,7 +205,6 @@
             // 
             // saveFileDialog1
             // 
-            this.saveFileDialog1.FileName = "*.json";
             this.saveFileDialog1.Filter = "mod列表|*.json";
             // 
             // mods_server

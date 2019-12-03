@@ -28,64 +28,71 @@ namespace NsisoLauncher_updata
             INFO.Text = "状态：更新列表中";
             Task.Factory.StartNew(() =>
             {
-                updata_obj.mods = new mod_check().ReadModInfo(mods_t.Text);
-                updata_obj.scripts = new scripts_check().ReadscriptsInfo(mods_t.Text);
-                updata_obj.config = new config_check().ReadconfigInfo(mods_t.Text);
-                updata_obj.resourcepacks = new resourcepacks_check().ReadresourcepacksInfo(mods_t.Text);
-                Action<int> action = (data) =>
+                try
                 {
-                    listView_mods.Items.Clear();
-                    if (updata_obj.mods.Count != 0)
+                    updata_obj.mods = new mod_check().ReadModInfo(mods_t.Text);
+                    updata_obj.scripts = new scripts_check().ReadscriptsInfo(mods_t.Text);
+                    updata_obj.config = new config_check().ReadconfigInfo(mods_t.Text);
+                    updata_obj.resourcepacks = new resourcepacks_check().ReadresourcepacksInfo(mods_t.Text);
+                    Action<int> action = (data) =>
                     {
-                        foreach (updata_item save in updata_obj.mods.Values)
+                        listView_mods.Items.Clear();
+                        if (updata_obj.mods.Count != 0)
                         {
-                            ListViewItem test = new ListViewItem(save.type);
-                            test.SubItems.Add(save.name);
-                            test.SubItems.Add(save.check);
-                            test.SubItems.Add(save.url);
-                            listView_mods.Items.Add(test);
+                            foreach (updata_item save in updata_obj.mods.Values)
+                            {
+                                ListViewItem test = new ListViewItem(save.type);
+                                test.SubItems.Add(save.name);
+                                test.SubItems.Add(save.check);
+                                test.SubItems.Add(save.url);
+                                listView_mods.Items.Add(test);
+                            }
                         }
-                    }
-                    if (updata_obj.scripts.Count != 0)
-                    {
-                        foreach (updata_item save in updata_obj.scripts)
+                        if (updata_obj.scripts.Count != 0)
                         {
-                            ListViewItem test = new ListViewItem(save.type);
-                            test.SubItems.Add(save.name);
-                            test.SubItems.Add(save.check);
-                            test.SubItems.Add(save.url);
-                            listView_mods.Items.Add(test);
+                            foreach (updata_item save in updata_obj.scripts)
+                            {
+                                ListViewItem test = new ListViewItem(save.type);
+                                test.SubItems.Add(save.name);
+                                test.SubItems.Add(save.check);
+                                test.SubItems.Add(save.url);
+                                listView_mods.Items.Add(test);
+                            }
                         }
-                    }
-                    if (updata_obj.config.Count != 0)
-                    {
-                        foreach (updata_item save in updata_obj.config)
+                        if (updata_obj.config.Count != 0)
                         {
-                            ListViewItem test = new ListViewItem(save.type);
-                            test.SubItems.Add(save.name);
-                            test.SubItems.Add(save.check);
-                            test.SubItems.Add(save.url);
-                            listView_mods.Items.Add(test);
+                            foreach (updata_item save in updata_obj.config)
+                            {
+                                ListViewItem test = new ListViewItem(save.type);
+                                test.SubItems.Add(save.name);
+                                test.SubItems.Add(save.check);
+                                test.SubItems.Add(save.url);
+                                listView_mods.Items.Add(test);
+                            }
                         }
-                    }
-                    if (updata_obj.resourcepacks.Count != 0)
-                    {
-                        foreach (updata_item save in updata_obj.resourcepacks)
+                        if (updata_obj.resourcepacks.Count != 0)
                         {
-                            ListViewItem test = new ListViewItem(save.type);
-                            test.SubItems.Add(save.name);
-                            test.SubItems.Add(save.check);
-                            test.SubItems.Add(save.url);
-                            listView_mods.Items.Add(test);
+                            foreach (updata_item save in updata_obj.resourcepacks)
+                            {
+                                ListViewItem test = new ListViewItem(save.type);
+                                test.SubItems.Add(save.name);
+                                test.SubItems.Add(save.check);
+                                test.SubItems.Add(save.url);
+                                listView_mods.Items.Add(test);
+                            }
                         }
-                    }
-                    INFO.Text = "状态：等待操作";
-                    new_mod.Text = "模组：" + (updata_obj.mods.Count != 0 ? "" + updata_obj.mods.Count : "无");
-                    new_scripts.Text = "魔改：" + (updata_obj.scripts.Count != 0 ? "" + updata_obj.scripts.Count : "无");
-                    new_resourcepacks.Text = "材质包：" + (updata_obj.resourcepacks.Count != 0 ? "" + updata_obj.resourcepacks.Count : "无");
-                    new_other.Text = "其他资源：" + (updata_obj.config.Count != 0 ? "" + updata_obj.config.Count : "无");
-                };
-                Invoke(action, 0);
+                        INFO.Text = "状态：等待操作";
+                        new_mod.Text = "模组：" + (updata_obj.mods.Count != 0 ? "" + updata_obj.mods.Count : "无");
+                        new_scripts.Text = "魔改：" + (updata_obj.scripts.Count != 0 ? "" + updata_obj.scripts.Count : "无");
+                        new_resourcepacks.Text = "材质包：" + (updata_obj.resourcepacks.Count != 0 ? "" + updata_obj.resourcepacks.Count : "无");
+                        new_other.Text = "其他资源：" + (updata_obj.config.Count != 0 ? "" + updata_obj.config.Count : "无");
+                    };
+                    Invoke(action, 0);
+                }
+                catch (Exception exz)
+                {
+                    MessageBox.Show(exz.Message);
+                }
             });
         }
 
@@ -111,6 +118,7 @@ namespace NsisoLauncher_updata
                 INFO.Text = "状态：保存中";
                 updata_obj.packname = packname_t.Text;
                 updata_obj.Vision = vision_t.Text;
+                saveFileDialog1.FileName = updata_obj.packname;
                 if (old_updata.mods != null)
                 {
                     Dictionary<string, updata_item> temp = old_updata.mods;

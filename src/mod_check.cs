@@ -79,6 +79,10 @@ namespace NsisoLauncher_updata
             foreach (string file in files)
             {
                 updata_item save = GetModsInfo(path, file);
+                if (list.ContainsKey(save.name))
+                {
+                    save.name += "1";
+                }
                 if (list.ContainsValue(save) == false)
                     list.Add(save.name, save);
             }
