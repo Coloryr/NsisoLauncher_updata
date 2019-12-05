@@ -1,17 +1,21 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NsisoLauncherCore.Net;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Collections.Generic;
+using static System.Windows.Forms.ListViewItem;
 
 namespace NsisoLauncher_updata
 {
     public partial class Form1 : Form
     {
-        public static updata_obj updata_obj { get; set; } = new updata_obj() ;
+        public static updata_obj updata_obj { get; set; } = new updata_obj();
         public static updata_obj old_updata { get; set; } = new updata_obj();
+        public static List<string> get_ok = new List<string>();
+        private bool is_busy = false;
         public Form1()
         {
             InitializeComponent();
@@ -25,9 +29,16 @@ namespace NsisoLauncher_updata
 
         private void re_mods_Click(object sender, EventArgs e)
         {
+            if (is_busy)
+            {
+                MessageBox.Show("上一个操作在进行中");
+                return;
+            }
             INFO.Text = "状态：更新列表中";
             Task.Factory.StartNew(() =>
             {
+                is_busy = true;
+                get_ok.Clear();
                 try
                 {
                     updata_obj.mods = new mod_check().ReadModInfo(mods_t.Text);
@@ -93,6 +104,7 @@ namespace NsisoLauncher_updata
                 {
                     MessageBox.Show(exz.Message);
                 }
+                is_busy = false;
             });
         }
 
@@ -103,50 +115,65 @@ namespace NsisoLauncher_updata
 
         private void chose_mods_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = "请选择mods文件路径";
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (!string.IsNullOrWhiteSpace(mods_t.Text))
+                folderBrowserDialog1.SelectedPath = mods_t.Text;
+            folderBrowserDialog1.Description = "请选择mods文件路径";
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
-                mods_t.Text = dialog.SelectedPath;
+                mods_t.Text = folderBrowserDialog1.SelectedPath;
             }
         }
 
         private void gen_json_Click(object sender, EventArgs e)
         {
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            if (is_busy)
             {
-                INFO.Text = "状态：保存中";
-                updata_obj.packname = packname_t.Text;
-                updata_obj.Vision = vision_t.Text;
-                saveFileDialog1.FileName = updata_obj.packname;
-                if (old_updata.mods != null)
-                {
-                    Dictionary<string, updata_item> temp = old_updata.mods;
-                    foreach (KeyValuePair<string, updata_item> new_item in updata_obj.mods)
-                    {
-                        if (temp.ContainsKey(new_item.Key))
-                        {
-                            temp.Remove(new_item.Key);
-                        }
-                    }
-                    if (temp.Count != 0)
-                    {
-                        foreach (updata_item old_item in temp.Values)
-                        {
-                            updata_obj.mods.Add(old_item.name, new updata_item
-                            {
-                                name = old_item.name,
-                                check = old_item.check,
-                                type = "模组",
-                                function = "delete",
-                                filename = old_item.filename
-                            });
-                        }
-                    }
-                }
-                File.WriteAllText(saveFileDialog1.FileName, JsonConvert.SerializeObject(updata_obj, Formatting.Indented));
-                INFO.Text = "状态：等待操作";
+                MessageBox.Show("上一个操作在进行中");
+                return;
             }
+            INFO.Text = "状态：保存中";
+            Task.Factory.StartNew(() =>
+            {
+                is_busy = true;
+                saveFileDialog1.DefaultExt = updata_obj.packname + @".json";
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    updata_obj.packname = packname_t.Text;
+                    updata_obj.Vision = vision_t.Text;
+                    if (old_updata.mods != null)
+                    {
+                        Dictionary<string, updata_item> temp = old_updata.mods;
+                        foreach (KeyValuePair<string, updata_item> new_item in updata_obj.mods)
+                        {
+                            if (temp.ContainsKey(new_item.Key))
+                            {
+                                temp.Remove(new_item.Key);
+                            }
+                        }
+                        if (temp.Count != 0)
+                        {
+                            foreach (updata_item old_item in temp.Values)
+                            {
+                                updata_obj.mods.Add(old_item.name, new updata_item
+                                {
+                                    name = old_item.name,
+                                    check = old_item.check,
+                                    type = "模组",
+                                    function = "delete",
+                                    filename = old_item.filename
+                                });
+                            }
+                        }
+                    }
+                    File.WriteAllText(saveFileDialog1.FileName, JsonConvert.SerializeObject(updata_obj, Formatting.Indented));
+                    Action<int> action = (data) =>
+                    {
+                        INFO.Text = "状态：等待操作";
+                    };
+                    Invoke(action, 0);
+                }
+                is_busy = false;
+            });
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -156,22 +183,32 @@ namespace NsisoLauncher_updata
 
         private void old_json_Click(object sender, EventArgs e)
         {
-            if (old_json_open.ShowDialog() == DialogResult.OK)
+            if (is_busy)
             {
-                if (string.IsNullOrWhiteSpace(old_json_open.FileName))
-                {
-                    MessageBox.Show("请选择文件");
-                    return;
-                }
-                JObject json = JObject.Parse(File.ReadAllText(old_json_open.FileName));
-                old_updata = json.ToObject<updata_obj>();
-                old_mod.Text = "模组：" + (old_updata.mods != null ? "" + old_updata.mods.Count : "无");
-                old_scripts.Text = "魔改：" + (old_updata.scripts != null ? "" + old_updata.scripts.Count : "无");
-                old_resourcepacks.Text = "材质包：" + (old_updata.resourcepacks != null ? "" + old_updata.resourcepacks.Count : "无");
-                old_other.Text = "其他资源：" + (old_updata.config != null ? "" + old_updata.config.Count : "无");
-                packname_t.Text = old_updata.packname;
-                vision_t.Text = old_updata.Vision;
+                MessageBox.Show("上一个操作在进行中");
+                return;
             }
+            Task.Factory.StartNew(() =>
+            {
+                is_busy = true;
+                if (old_json_open.ShowDialog() == DialogResult.OK)
+                {
+                    if (string.IsNullOrWhiteSpace(old_json_open.FileName))
+                    {
+                        MessageBox.Show("请选择文件");
+                        return;
+                    }
+                    JObject json = JObject.Parse(File.ReadAllText(old_json_open.FileName));
+                    old_updata = json.ToObject<updata_obj>();
+                    old_mod.Text = "模组：" + (old_updata.mods != null ? "" + old_updata.mods.Count : "无");
+                    old_scripts.Text = "魔改：" + (old_updata.scripts != null ? "" + old_updata.scripts.Count : "无");
+                    old_resourcepacks.Text = "材质包：" + (old_updata.resourcepacks != null ? "" + old_updata.resourcepacks.Count : "无");
+                    old_other.Text = "其他资源：" + (old_updata.config != null ? "" + old_updata.config.Count : "无");
+                    packname_t.Text = old_updata.packname;
+                    vision_t.Text = old_updata.Vision;
+                }
+                is_busy = false;
+            });
         }
 
         private void old_json_clear_Click(object sender, EventArgs e)
@@ -182,5 +219,175 @@ namespace NsisoLauncher_updata
             old_resourcepacks.Text = "材质包：无";
             old_other.Text = "其他资源：无";
         }
+
+        private void curseforge_Click(object sender, EventArgs e)
+        {
+            if (is_busy)
+            {
+                MessageBox.Show("上一个操作在进行中");
+                return;
+            }
+            INFO.Text = "状态：获取中";
+            Task.Factory.StartNew(() =>
+            {
+                is_busy = true;
+                if (updata_obj != null && updata_obj.mods.Count != 0)
+                {
+                    Action<int> action = async (data) =>
+                    {
+                        foreach (KeyValuePair<string, updata_item> item in updata_obj.mods)
+                        {
+                            if (!get_ok.Contains(item.Key))
+                            {
+                                string a = await get_urlAsync(item.Value);
+                                if (a != "null")
+                                {
+                                    updata_obj.mods[item.Key].url = a;
+                                    get_ok.Add(item.Key);
+                                    Action<string> action1 = (data1) =>
+                                    {
+                                        for (int temp = 0; temp < listView_mods.Items.Count; temp++)
+                                        {
+                                            foreach (ListViewSubItem temp1 in listView_mods.Items[temp].SubItems)
+                                            {
+                                                if (temp1.Text == item.Key)
+                                                {
+                                                    listView_mods.Items[temp].SubItems[3].Text = data1;
+                                                }
+                                            }
+                                        }
+                                    };
+                                    Invoke(action1, a);
+                                }
+                            }
+                        }
+                        listView_mods.Items.Clear();
+                        if (updata_obj.mods.Count != 0)
+                        {
+                            foreach (updata_item save in updata_obj.mods.Values)
+                            {
+                                ListViewItem test = new ListViewItem(save.type);
+                                test.SubItems.Add(save.name);
+                                test.SubItems.Add(save.check);
+                                test.SubItems.Add(save.url);
+                                listView_mods.Items.Add(test);
+                            }
+                        }
+                        if (updata_obj.scripts.Count != 0)
+                        {
+                            foreach (updata_item save in updata_obj.scripts)
+                            {
+                                ListViewItem test = new ListViewItem(save.type);
+                                test.SubItems.Add(save.name);
+                                test.SubItems.Add(save.check);
+                                test.SubItems.Add(save.url);
+                                listView_mods.Items.Add(test);
+                            }
+                        }
+                        if (updata_obj.config.Count != 0)
+                        {
+                            foreach (updata_item save in updata_obj.config)
+                            {
+                                ListViewItem test = new ListViewItem(save.type);
+                                test.SubItems.Add(save.name);
+                                test.SubItems.Add(save.check);
+                                test.SubItems.Add(save.url);
+                                listView_mods.Items.Add(test);
+                            }
+                        }
+                        if (updata_obj.resourcepacks.Count != 0)
+                        {
+                            foreach (updata_item save in updata_obj.resourcepacks)
+                            {
+                                ListViewItem test = new ListViewItem(save.type);
+                                test.SubItems.Add(save.name);
+                                test.SubItems.Add(save.check);
+                                test.SubItems.Add(save.url);
+                                listView_mods.Items.Add(test);
+                            }
+                        }
+                        INFO.Text = "状态：等待操作";
+                        new_mod.Text = "模组：" + (updata_obj.mods.Count != 0 ? "" + updata_obj.mods.Count : "无");
+                        new_scripts.Text = "魔改：" + (updata_obj.scripts.Count != 0 ? "" + updata_obj.scripts.Count : "无");
+                        new_resourcepacks.Text = "材质包：" + (updata_obj.resourcepacks.Count != 0 ? "" + updata_obj.resourcepacks.Count : "无");
+                        new_other.Text = "其他资源：" + (updata_obj.config.Count != 0 ? "" + updata_obj.config.Count : "无");
+                        is_busy = false;
+                    };
+                    Invoke(action, 0);
+                }
+            });
+        }
+        private string get_string(string a, string b, string c = null)
+        {
+            int x = a.IndexOf(b) + b.Length;
+            int y;
+            if (c != null)
+            {
+                y = a.IndexOf(c, x);
+                if (y - x <= 0)
+                    return a;
+                else
+                    return a.Substring(x, y - x);
+            }
+            else
+                return a.Substring(x);
+        }
+        private async Task<string> get_urlAsync(updata_item mod)
+        {
+            string base_url = @"https://addons-ecs.forgesvc.net/api/v2/addon/{0}/file/{1}";
+            string re_url = @"https://api.cfwidget.com/minecraft/mc-mods/";
+            string mod_name = mod.name.Trim(' ').Replace(' ', '-').Replace("!", "").Replace(@"'", "")
+                .Replace(",", "").TrimEnd('-');
+            if (mod_name.Contains("(") && mod_name.Contains(")"))
+            {
+                mod_name = get_string(mod_name, "(", ")");
+            }
+            else if (tran_1_12.ContainsKey(mod_name) && mc_vision.Text.Contains("1.12"))
+                mod_name = tran_1_12[mod_name];
+            re_url += mod_name;
+            INFO.Text = "正在获取：" + mod_name;
+            try
+            {
+                string res = await APIRequester.HttpGetStringAsync(re_url);
+                if (string.IsNullOrWhiteSpace(res))
+                    return "null";
+                JObject c = JObject.Parse(res);
+                mod_re_obj obj = c.ToObject<mod_re_obj>();
+                foreach (file file in obj.files)
+                {
+                    if (file.version.Contains(mc_vision.Text) || file.versions.Contains(mc_vision.Text))
+                    {
+                        INFO.Text = "正在读取：" + mod_name;
+                        res = await APIRequester.HttpGetStringAsync(string.Format(base_url, obj.id, file.id));
+                        if (string.IsNullOrWhiteSpace(res))
+                            return "null";
+                        var obj1 = JObject.Parse(res).ToObject<mod_re_obj1>();
+                        return obj1.downloadUrl;
+                    }
+                }
+                return "null";
+            }
+            catch
+            {
+                return "null";
+            }
+        }
+        private static Dictionary<string, string> tran_1_12 = new Dictionary<string, string>()
+        {
+            {"AngelRing-2-Bauble","angel-ring-to-bauble"},
+            {"Avaritia", "avaritia-1-10"},
+            {"Avaritia-Recipe-Maker", "avaritia-recipe-generator"},
+            {"BD-Lib", "BDLib"},
+            {"CodeChicken-Lib", "codechicken-lib-1-8"},
+            {"CraftTweaker2", "CraftTweaker"},
+            {"Cucumber-Library","cucumber"},
+            {"Draconic-Additions","draconicadditions"},
+            {"EnderStorage", "ender-storage-1-8"},
+            {"Extra-Cells-2", "ExtraCells2"},
+            {"Extra-Utilities-2", "Extra-Utilities"},
+            {"ET-Lunar", "environmental-lunartech"},
+            {"FoamFix", "foamfix-for-minecraft"},
+            {"FTB-Library", "ftblib"}
+        };
     }
 }

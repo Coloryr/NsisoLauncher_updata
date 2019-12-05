@@ -1,4 +1,6 @@
-﻿namespace NsisoLauncher_updata
+﻿using System.Windows.Forms;
+
+namespace NsisoLauncher_updata
 {
     partial class Form1
     {
@@ -61,6 +63,10 @@
             this.label11 = new System.Windows.Forms.Label();
             this.old_json_open = new System.Windows.Forms.OpenFileDialog();
             this.old_json_clear = new System.Windows.Forms.Button();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.curseforge = new System.Windows.Forms.Button();
+            this.mc_vision = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -151,7 +157,7 @@
             // INFO
             // 
             this.INFO.AutoSize = true;
-            this.INFO.Location = new System.Drawing.Point(686, 391);
+            this.INFO.Location = new System.Drawing.Point(10, 441);
             this.INFO.Name = "INFO";
             this.INFO.Size = new System.Drawing.Size(41, 12);
             this.INFO.TabIndex = 5;
@@ -205,7 +211,8 @@
             // 
             // saveFileDialog1
             // 
-            this.saveFileDialog1.Filter = "mod列表|*.json";
+            this.saveFileDialog1.Filter = "资源列表|*.json";
+            this.saveFileDialog1.RestoreDirectory = true;
             // 
             // mods_server
             // 
@@ -237,7 +244,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(686, 199);
+            this.label5.Location = new System.Drawing.Point(686, 231);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(77, 12);
             this.label5.TabIndex = 14;
@@ -246,7 +253,7 @@
             // old_mod
             // 
             this.old_mod.AutoSize = true;
-            this.old_mod.Location = new System.Drawing.Point(686, 220);
+            this.old_mod.Location = new System.Drawing.Point(686, 252);
             this.old_mod.Name = "old_mod";
             this.old_mod.Size = new System.Drawing.Size(59, 12);
             this.old_mod.TabIndex = 15;
@@ -255,7 +262,7 @@
             // old_resourcepacks
             // 
             this.old_resourcepacks.AutoSize = true;
-            this.old_resourcepacks.Location = new System.Drawing.Point(686, 241);
+            this.old_resourcepacks.Location = new System.Drawing.Point(686, 273);
             this.old_resourcepacks.Name = "old_resourcepacks";
             this.old_resourcepacks.Size = new System.Drawing.Size(71, 12);
             this.old_resourcepacks.TabIndex = 16;
@@ -264,7 +271,7 @@
             // old_scripts
             // 
             this.old_scripts.AutoSize = true;
-            this.old_scripts.Location = new System.Drawing.Point(813, 220);
+            this.old_scripts.Location = new System.Drawing.Point(813, 252);
             this.old_scripts.Name = "old_scripts";
             this.old_scripts.Size = new System.Drawing.Size(41, 12);
             this.old_scripts.TabIndex = 17;
@@ -273,7 +280,7 @@
             // old_other
             // 
             this.old_other.AutoSize = true;
-            this.old_other.Location = new System.Drawing.Point(813, 241);
+            this.old_other.Location = new System.Drawing.Point(813, 273);
             this.old_other.Name = "old_other";
             this.old_other.Size = new System.Drawing.Size(83, 12);
             this.old_other.TabIndex = 18;
@@ -282,7 +289,7 @@
             // new_other
             // 
             this.new_other.AutoSize = true;
-            this.new_other.Location = new System.Drawing.Point(813, 317);
+            this.new_other.Location = new System.Drawing.Point(813, 336);
             this.new_other.Name = "new_other";
             this.new_other.Size = new System.Drawing.Size(83, 12);
             this.new_other.TabIndex = 23;
@@ -291,7 +298,7 @@
             // new_scripts
             // 
             this.new_scripts.AutoSize = true;
-            this.new_scripts.Location = new System.Drawing.Point(813, 296);
+            this.new_scripts.Location = new System.Drawing.Point(813, 315);
             this.new_scripts.Name = "new_scripts";
             this.new_scripts.Size = new System.Drawing.Size(41, 12);
             this.new_scripts.TabIndex = 22;
@@ -300,7 +307,7 @@
             // new_resourcepacks
             // 
             this.new_resourcepacks.AutoSize = true;
-            this.new_resourcepacks.Location = new System.Drawing.Point(686, 317);
+            this.new_resourcepacks.Location = new System.Drawing.Point(686, 336);
             this.new_resourcepacks.Name = "new_resourcepacks";
             this.new_resourcepacks.Size = new System.Drawing.Size(71, 12);
             this.new_resourcepacks.TabIndex = 21;
@@ -309,7 +316,7 @@
             // new_mod
             // 
             this.new_mod.AutoSize = true;
-            this.new_mod.Location = new System.Drawing.Point(686, 296);
+            this.new_mod.Location = new System.Drawing.Point(686, 315);
             this.new_mod.Name = "new_mod";
             this.new_mod.Size = new System.Drawing.Size(59, 12);
             this.new_mod.TabIndex = 20;
@@ -318,7 +325,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(686, 275);
+            this.label11.Location = new System.Drawing.Point(686, 294);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(77, 12);
             this.label11.TabIndex = 19;
@@ -328,6 +335,7 @@
             // 
             this.old_json_open.DefaultExt = "json";
             this.old_json_open.Filter = "json文件|*.json";
+            this.old_json_open.RestoreDirectory = true;
             // 
             // old_json_clear
             // 
@@ -339,11 +347,41 @@
             this.old_json_clear.UseVisualStyleBackColor = true;
             this.old_json_clear.Click += new System.EventHandler(this.old_json_clear_Click);
             // 
+            // curseforge
+            // 
+            this.curseforge.Location = new System.Drawing.Point(698, 386);
+            this.curseforge.Name = "curseforge";
+            this.curseforge.Size = new System.Drawing.Size(127, 23);
+            this.curseforge.TabIndex = 25;
+            this.curseforge.Text = "获取curseforge下载";
+            this.curseforge.UseVisualStyleBackColor = true;
+            this.curseforge.Click += new System.EventHandler(this.curseforge_Click);
+            // 
+            // mc_vision
+            // 
+            this.mc_vision.Location = new System.Drawing.Point(688, 193);
+            this.mc_vision.Name = "mc_vision";
+            this.mc_vision.Size = new System.Drawing.Size(247, 21);
+            this.mc_vision.TabIndex = 28;
+            this.mc_vision.Text = "1.12";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(686, 176);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 27;
+            this.label6.Text = "MC版本号";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(947, 450);
+            this.ClientSize = new System.Drawing.Size(947, 459);
+            this.Controls.Add(this.mc_vision);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.curseforge);
             this.Controls.Add(this.old_json_clear);
             this.Controls.Add(this.new_other);
             this.Controls.Add(this.new_scripts);
@@ -414,6 +452,10 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.OpenFileDialog old_json_open;
         private System.Windows.Forms.Button old_json_clear;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.Button curseforge;
+        private System.Windows.Forms.TextBox mc_vision;
+        private System.Windows.Forms.Label label6;
     }
 }
 

@@ -102,6 +102,13 @@ namespace NsisoLauncher_updata
                     if (zp == null)
                     {
                         zip.Close();
+                        foreach (string name in tran_1_12_list)
+                        {
+                            if (mod.filename.Contains(name))
+                            {
+                                mod.name = name;
+                            }
+                        }
                         goto a;
                     }
                     Stream stream = zip.GetInputStream(zp);
@@ -127,20 +134,20 @@ namespace NsisoLauncher_updata
                     }
                     zip.Close();
                     stream.Close();
+                    if (modinfo != null)
+                    {
+                        var c = modinfo.ToObject<ModListItem>();
+                        if (c.name != null)
+                        {
+                            mod.name = c.name;
+                        }
+                    }
                 }
                 catch
                 {
-
+                    
                 }
-                if (modinfo != null)
-                {
-                    var b = modinfo.ToObject<ModListItem>();
-                    if (b.modid != null)
-                    {
-                        mod.name = b.name;
-                    }
-                }
-            a:
+            a:    
                 if (string.IsNullOrWhiteSpace(mod.name))
                 {
                     mod.name = fileName.Replace(path, "");
@@ -158,5 +165,10 @@ namespace NsisoLauncher_updata
                 return null;
             }
         }
+        private static List<string> tran_1_12_list = new List<string>()
+        {
+            "AppleCore", "BetterFps", "jech", "MakeZoomZoom", "MCMultiPart",
+            "p455w0rdslib"
+        };
     }
 }
