@@ -337,7 +337,7 @@ namespace NsisoLauncher_updata
             string base_url = @"https://addons-ecs.forgesvc.net/api/v2/addon/{0}/file/{1}";
             string re_url = @"https://api.cfwidget.com/minecraft/mc-mods/";
             string mod_name = mod.name.Trim(' ').Replace(' ', '-').Replace("!", "").Replace(@"'", "")
-                .Replace(",", "").TrimEnd('-');
+                .Replace(",", "").Replace(":", "").Replace("_","-").Replace("+","-").TrimEnd('-');
             if (mod_name.Contains("(") && mod_name.Contains(")"))
             {
                 mod_name = get_string(mod_name, "(", ")");
@@ -387,7 +387,37 @@ namespace NsisoLauncher_updata
             {"Extra-Utilities-2", "Extra-Utilities"},
             {"ET-Lunar", "environmental-lunartech"},
             {"FoamFix", "foamfix-for-minecraft"},
-            {"FTB-Library", "ftblib"}
+            {"FTB-Library", "ftblib"},
+            {"FTB-Utilitie:-Backups", "ftb-backups"},
+            {"Grimoire-of-Gaia-3", "Grimoire-of-gaia"},
+            {"Waila", "Hwyla"},
+            {"IndustrialExpansion", "industrial-expansion-te-addon"},
+            {"Just-Enough-Items", "jei"},
+            {"JMap-Staged","journeymapstages"},
+            {"Just-Enough-Energistics", "just-enough-energistics-jee"},
+            {"Just-Enough-Resources", "just-enough-resources-jer"},
+            {"MakeZoomZoom", "make-zoom-zoom"},
+            {"MineTweakerRecipeMaker","minetweaker-recipemaker"},
+            {"MoreOverlays","more-overlays"},
+            {"NoMoreRecipeConflict","stimmedcow-nomorerecipeconflict"},
+            {"OreExcavation","Ore-Excavation"},
+            {"p455w0rdslib", "p455w0rds-library"},
+            {"Salty-Mod","SaltyMod"},
+            {"SelfControl", "Self-Control"},
+            {"SonarCore", "Sonar-Core"},
+            {"Standard-Expansion","better-questing-standard-expansion"},
+            {"Tinker-Stages","TinkerStages"},
+            {"Tree-Growing-Simulator-2016","Tree-Growing-Simulator"},
+            {"Up-Sizer","upsizer-mod"},
+            {"Valkyrie-Lib","valkyrielib"},
+            {"WaterPower","Water-Power"},
+            {"Winter-WonderLand","winter-wonder-land"},
+            {"Wireless-Crafting-Terminal","wireless-crafting-terminal"},
+            {"Zero-CORE","zerocore"},
+            {"CustomNPCs","custom-npcs"},
+            {"I18n-Update-Mod","i18nupdatemod"},
+            {"Placeable-Items-Mod","placeable-items"},
+            {"Real-First-Person-2","real-first-person-render"},
         };
     }
 }
