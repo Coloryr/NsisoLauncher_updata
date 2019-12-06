@@ -4,6 +4,7 @@ using NsisoLauncherCore.Net;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.ListViewItem;
@@ -132,48 +133,42 @@ namespace NsisoLauncher_updata
                 return;
             }
             INFO.Text = "状态：保存中";
-            Task.Factory.StartNew(() =>
+            is_busy = true;
+            saveFileDialog1.DefaultExt = updata_obj.packname + @".json";
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                is_busy = true;
-                saveFileDialog1.DefaultExt = updata_obj.packname + @".json";
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                updata_obj.packname = packname_t.Text;
+                updata_obj.Vision = vision_t.Text;
+                if (old_updata.mods != null)
                 {
-                    updata_obj.packname = packname_t.Text;
-                    updata_obj.Vision = vision_t.Text;
-                    if (old_updata.mods != null)
+                    Dictionary<string, updata_item> temp = new Dictionary<string, updata_item>(old_updata.mods);
+                    foreach (KeyValuePair<string, updata_item> new_item in updata_obj.mods)
                     {
-                        Dictionary<string, updata_item> temp = old_updata.mods;
-                        foreach (KeyValuePair<string, updata_item> new_item in updata_obj.mods)
+                        if (old_updata.mods.ContainsKey(new_item.Key))
                         {
-                            if (temp.ContainsKey(new_item.Key))
-                            {
-                                temp.Remove(new_item.Key);
-                            }
-                        }
-                        if (temp.Count != 0)
-                        {
-                            foreach (updata_item old_item in temp.Values)
-                            {
-                                updata_obj.mods.Add(old_item.name, new updata_item
-                                {
-                                    name = old_item.name,
-                                    check = old_item.check,
-                                    type = "模组",
-                                    function = "delete",
-                                    filename = old_item.filename
-                                });
-                            }
+                            temp.Remove(new_item.Key);
                         }
                     }
-                    File.WriteAllText(saveFileDialog1.FileName, JsonConvert.SerializeObject(updata_obj, Formatting.Indented));
-                    Action<int> action = (data) =>
+                    Dictionary<string, updata_item> temp1 = new Dictionary<string, updata_item>(temp);
+                    if (temp1.Count != 0)
                     {
-                        INFO.Text = "状态：等待操作";
-                    };
-                    Invoke(action, 0);
+                        foreach (updata_item old_item in temp1.Values)
+                        {
+                            updata_obj.mods.Add(old_item.name, new updata_item
+                            {
+                                name = old_item.name,
+                                check = old_item.check,
+                                type = "模组",
+                                function = "delete",
+                                filename = old_item.filename
+                            });
+                        }
+                    }
                 }
-                is_busy = false;
-            });
+                File.WriteAllText(saveFileDialog1.FileName, JsonConvert.SerializeObject(updata_obj, Formatting.Indented));
+                    INFO.Text = "状态：等待操作";
+            }
+            is_busy = false;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -188,29 +183,87 @@ namespace NsisoLauncher_updata
                 MessageBox.Show("上一个操作在进行中");
                 return;
             }
-            Task.Factory.StartNew(() =>
+            is_busy = true;
+            if (old_json_open.ShowDialog() == DialogResult.OK)
             {
-                is_busy = true;
-                if (old_json_open.ShowDialog() == DialogResult.OK)
+                if (string.IsNullOrWhiteSpace(old_json_open.FileName))
                 {
-                    if (string.IsNullOrWhiteSpace(old_json_open.FileName))
-                    {
-                        MessageBox.Show("请选择文件");
-                        return;
-                    }
-                    JObject json = JObject.Parse(File.ReadAllText(old_json_open.FileName));
-                    old_updata = json.ToObject<updata_obj>();
-                    old_mod.Text = "模组：" + (old_updata.mods != null ? "" + old_updata.mods.Count : "无");
-                    old_scripts.Text = "魔改：" + (old_updata.scripts != null ? "" + old_updata.scripts.Count : "无");
-                    old_resourcepacks.Text = "材质包：" + (old_updata.resourcepacks != null ? "" + old_updata.resourcepacks.Count : "无");
-                    old_other.Text = "其他资源：" + (old_updata.config != null ? "" + old_updata.config.Count : "无");
-                    packname_t.Text = old_updata.packname;
-                    vision_t.Text = old_updata.Vision;
+                    MessageBox.Show("请选择文件");
+                    return;
                 }
-                is_busy = false;
-            });
+                JObject json = JObject.Parse(File.ReadAllText(old_json_open.FileName));
+                old_updata = json.ToObject<updata_obj>();
+                packname_t.Text = old_updata.packname;
+                vision_t.Text = old_updata.Vision;
+                old_mod.Text = "模组：" + (old_updata.mods != null ? "" + old_updata.mods.Count : "无");
+                old_scripts.Text = "魔改：" + (old_updata.scripts != null ? "" + old_updata.scripts.Count : "无");
+                old_resourcepacks.Text = "材质包：" + (old_updata.resourcepacks != null ? "" + old_updata.resourcepacks.Count : "无");
+                old_other.Text = "其他资源：" + (old_updata.config != null ? "" + old_updata.config.Count : "无");
+                packname_t.Text = old_updata.packname;
+                vision_t.Text = old_updata.Vision;
+                listView_mods.Items.Clear();
+                if (old_updata.mods.Count != 0)
+                {
+                    foreach (updata_item save in old_updata.mods.Values)
+                    {
+                        ListViewItem test = new ListViewItem(save.type);
+                        test.SubItems.Add(save.name);
+                        test.SubItems.Add(save.check);
+                        test.SubItems.Add(save.url);
+                        listView_mods.Items.Add(test);
+                    }
+                }
+                if (old_updata.scripts.Count != 0)
+                {
+                    foreach (updata_item save in old_updata.scripts)
+                    {
+                        ListViewItem test = new ListViewItem(save.type);
+                        test.SubItems.Add(save.name);
+                        test.SubItems.Add(save.check);
+                        test.SubItems.Add(save.url);
+                        listView_mods.Items.Add(test);
+                    }
+                }
+                if (old_updata.config.Count != 0)
+                {
+                    foreach (updata_item save in old_updata.config)
+                    {
+                        ListViewItem test = new ListViewItem(save.type);
+                        test.SubItems.Add(save.name);
+                        test.SubItems.Add(save.check);
+                        test.SubItems.Add(save.url);
+                        listView_mods.Items.Add(test);
+                    }
+                }
+                if (old_updata.resourcepacks.Count != 0)
+                {
+                    foreach (updata_item save in old_updata.resourcepacks)
+                    {
+                        ListViewItem test = new ListViewItem(save.type);
+                        test.SubItems.Add(save.name);
+                        test.SubItems.Add(save.check);
+                        test.SubItems.Add(save.url);
+                        listView_mods.Items.Add(test);
+                    }
+                }
+                updata_obj = DeepCopy<updata_obj>(old_updata);
+            }
+            is_busy = false;
         }
+        public static T DeepCopy<T>(T obj)
+        {
+            //如果是字符串或值类型则直接返回
+            if (obj == null || obj is string || obj.GetType().IsValueType) return obj;
 
+            object retval = Activator.CreateInstance(obj.GetType());
+            System.Reflection.FieldInfo[] fields = obj.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+            foreach (System.Reflection.FieldInfo field in fields)
+            {
+                try { field.SetValue(retval, DeepCopy(field.GetValue(obj))); }
+                catch { }
+            }
+            return (T)retval;
+        }
         private void old_json_clear_Click(object sender, EventArgs e)
         {
             old_updata = null;
@@ -418,6 +471,35 @@ namespace NsisoLauncher_updata
             {"I18n-Update-Mod","i18nupdatemod"},
             {"Placeable-Items-Mod","placeable-items"},
             {"Real-First-Person-2","real-first-person-render"},
+            {"B.A.S.E","base"},
+            {"Barrels-Drums-Storage-&-More", "barrels-drums-storage-more"},
+            {"Chisels-&-Bits","chisels-bits"},
+            {"CommonCapabilities", "Common-Capabilities"},
+            {"Compact-Machines-3", "Compact-Machines"},
+            {"InControl", "In-Control"},
+            {"Simple-Inventory-sorting", "inventory-sorter"},
+            {"Elevator-Mod","openblocks-elevator"},
+            {"MatterOverdrive-Legacy-Edition","matteroverdrive"},
+            {"Mod-Tweaker","modtweaker"},
+            {"ModPack-Basic-Tools", "mputils-basic-tools"},
+            {"ModPack-Utilities", "mputils"},
+            {"NuclearCraft", "nuclearcraft-mod"},
+            {"OpenComputers-Xnet-Driver","oc-xnet-driver"},
+            {"OG-Dragon","ogdragon"},
+            {"PlaneFix1","PlaneFix"},
+            {"PortalGun","Portal-Gun"},
+            {"RecipeStages","Recipe-Stages"},
+            {"rftoolspower","rftools-power"},
+            {"SkyBonsais", "Sky-Bonsais"},
+            {"Squeezer-Patch","id-squeezer-tweak"},
+            {"Statues-mod","Statues"},
+            {"TogetherForever","Together-Forever"},
+            {"Translocators","translocators-1-8"},
+            {"ViesCraft","viescraft-airships"},
+            {"What-Are-We-Looking-At","wawla-what-are-we-looking-at"},
+            {"Wither-Crumbs","witherCrumbs"},
+            {"XC-Patch","XCPatch"},
+            {"HydroGel","ignition-hydrogel"}
         };
     }
 }
