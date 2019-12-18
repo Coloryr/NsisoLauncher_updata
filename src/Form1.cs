@@ -139,7 +139,7 @@ namespace NsisoLauncher_updata
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 updata_obj.packname = packname_t.Text;
-                updata_obj.Vision = vision_t.Text;
+                updata_obj.Version = vision_t.Text;
                 if (old_updata.mods != null)
                 {
                     Dictionary<string, updata_item> temp = new Dictionary<string, updata_item>(old_updata.mods);
@@ -195,13 +195,13 @@ namespace NsisoLauncher_updata
                 JObject json = JObject.Parse(File.ReadAllText(old_json_open.FileName));
                 old_updata = json.ToObject<updata_obj>();
                 packname_t.Text = old_updata.packname;
-                vision_t.Text = old_updata.Vision;
+                vision_t.Text = old_updata.Version;
                 old_mod.Text = "模组：" + (old_updata.mods != null ? "" + old_updata.mods.Count : "无");
                 old_scripts.Text = "魔改：" + (old_updata.scripts != null ? "" + old_updata.scripts.Count : "无");
                 old_resourcepacks.Text = "材质包：" + (old_updata.resourcepacks != null ? "" + old_updata.resourcepacks.Count : "无");
                 old_other.Text = "其他资源：" + (old_updata.config != null ? "" + old_updata.config.Count : "无");
                 packname_t.Text = old_updata.packname;
-                vision_t.Text = old_updata.Vision;
+                vision_t.Text = old_updata.Version;
                 listView_mods.Items.Clear();
                 if (old_updata.mods.Count != 0)
                 {
@@ -247,7 +247,11 @@ namespace NsisoLauncher_updata
                         listView_mods.Items.Add(test);
                     }
                 }
-                updata_obj = DeepCopy<updata_obj>(old_updata);
+                updata_obj.packname = old_updata.packname;
+                updata_obj.Version = old_updata.Version;
+                updata_obj.mods = new Dictionary<string, updata_item>(old_updata.mods);
+                updata_obj.scripts = new List<updata_item>(old_updata.scripts);
+                updata_obj.resourcepacks = new List<updata_item>(old_updata.resourcepacks);
             }
             is_busy = false;
         }
@@ -387,8 +391,7 @@ namespace NsisoLauncher_updata
             IChecker checker = new MD5Checker();
             try
             {
-
-                checker.FilePath = mods_t.Text + @"/" + mod.filename;
+                checker.FilePath = mods_t.Text + @"/mods/" + mod.filename;
                 return checker.GetFileChecksum();
             }
             catch
@@ -419,28 +422,24 @@ namespace NsisoLauncher_updata
                     {
                         foreach (KeyValuePair<string, updata_item> item in updata_obj.mods)
                         {
-                            if (!get_ok.Contains(item.Key))
+                            string a = get_md5(item.Value);
+                            if (a != "null")
                             {
-                                string a = get_md5(item.Value);
-                                if (a != "null")
+                                updata_obj.mods[item.Key].check = a;
+                                Action<string> action1 = (data1) =>
                                 {
-                                    updata_obj.mods[item.Key].url = a;
-                                    get_ok.Add(item.Key);
-                                    Action<string> action1 = (data1) =>
+                                    for (int temp = 0; temp < listView_mods.Items.Count; temp++)
                                     {
-                                        for (int temp = 0; temp < listView_mods.Items.Count; temp++)
+                                        foreach (ListViewSubItem temp1 in listView_mods.Items[temp].SubItems)
                                         {
-                                            foreach (ListViewSubItem temp1 in listView_mods.Items[temp].SubItems)
+                                            if (temp1.Text == item.Key)
                                             {
-                                                if (temp1.Text == item.Key)
-                                                {
-                                                    listView_mods.Items[temp].SubItems[2].Text = data1;
-                                                }
+                                                listView_mods.Items[temp].SubItems[2].Text = data1;
                                             }
                                         }
-                                    };
-                                    Invoke(action1, a);
-                                }
+                                    }
+                                };
+                                Invoke(action1, a);
                             }
                         }
                         INFO.Text = "状态：等待操作";
