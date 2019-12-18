@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NsisoLauncherCore.Net;
+using NsisoLauncherCore.Util.Checker;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -256,8 +257,8 @@ namespace NsisoLauncher_updata
             if (obj == null || obj is string || obj.GetType().IsValueType) return obj;
 
             object retval = Activator.CreateInstance(obj.GetType());
-            System.Reflection.FieldInfo[] fields = obj.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
-            foreach (System.Reflection.FieldInfo field in fields)
+            FieldInfo[] fields = obj.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+            foreach (FieldInfo field in fields)
             {
                 try { field.SetValue(retval, DeepCopy(field.GetValue(obj))); }
                 catch { }
@@ -295,6 +296,10 @@ namespace NsisoLauncher_updata
                                 string a = await get_urlAsync(item.Value);
                                 if (a != "null")
                                 {
+                                    if (!a.Contains(item.Value.filename))
+                                    {
+                                        item.Value.filename = get_string(a, "/" + item.Value.filename.Substring(0, 2));
+                                    }
                                     updata_obj.mods[item.Key].url = a;
                                     get_ok.Add(item.Key);
                                     Action<string> action1 = (data1) =>
@@ -314,56 +319,7 @@ namespace NsisoLauncher_updata
                                 }
                             }
                         }
-                        listView_mods.Items.Clear();
-                        if (updata_obj.mods.Count != 0)
-                        {
-                            foreach (updata_item save in updata_obj.mods.Values)
-                            {
-                                ListViewItem test = new ListViewItem(save.type);
-                                test.SubItems.Add(save.name);
-                                test.SubItems.Add(save.check);
-                                test.SubItems.Add(save.url);
-                                listView_mods.Items.Add(test);
-                            }
-                        }
-                        if (updata_obj.scripts.Count != 0)
-                        {
-                            foreach (updata_item save in updata_obj.scripts)
-                            {
-                                ListViewItem test = new ListViewItem(save.type);
-                                test.SubItems.Add(save.name);
-                                test.SubItems.Add(save.check);
-                                test.SubItems.Add(save.url);
-                                listView_mods.Items.Add(test);
-                            }
-                        }
-                        if (updata_obj.config.Count != 0)
-                        {
-                            foreach (updata_item save in updata_obj.config)
-                            {
-                                ListViewItem test = new ListViewItem(save.type);
-                                test.SubItems.Add(save.name);
-                                test.SubItems.Add(save.check);
-                                test.SubItems.Add(save.url);
-                                listView_mods.Items.Add(test);
-                            }
-                        }
-                        if (updata_obj.resourcepacks.Count != 0)
-                        {
-                            foreach (updata_item save in updata_obj.resourcepacks)
-                            {
-                                ListViewItem test = new ListViewItem(save.type);
-                                test.SubItems.Add(save.name);
-                                test.SubItems.Add(save.check);
-                                test.SubItems.Add(save.url);
-                                listView_mods.Items.Add(test);
-                            }
-                        }
                         INFO.Text = "状态：等待操作";
-                        new_mod.Text = "模组：" + (updata_obj.mods.Count != 0 ? "" + updata_obj.mods.Count : "无");
-                        new_scripts.Text = "魔改：" + (updata_obj.scripts.Count != 0 ? "" + updata_obj.scripts.Count : "无");
-                        new_resourcepacks.Text = "材质包：" + (updata_obj.resourcepacks.Count != 0 ? "" + updata_obj.resourcepacks.Count : "无");
-                        new_other.Text = "其他资源：" + (updata_obj.config.Count != 0 ? "" + updata_obj.config.Count : "无");
                         is_busy = false;
                     };
                     Invoke(action, 0);
@@ -424,6 +380,75 @@ namespace NsisoLauncher_updata
             {
                 return "null";
             }
+        }
+        private string get_md5(updata_item mod)
+        {
+            INFO.Text = "正在获取：" + mod.name;
+            IChecker checker = new MD5Checker();
+            try
+            {
+
+                checker.FilePath = mods_t.Text + @"/" + mod.filename;
+                return checker.GetFileChecksum();
+            }
+            catch
+            {
+                return "null";
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (is_busy)
+            {
+                MessageBox.Show("上一个操作在进行中");
+                return;
+            }
+            else if (string.IsNullOrWhiteSpace(mods_t.Text))
+            {
+                MessageBox.Show("请选择根目录");
+                return;
+            }
+            INFO.Text = "状态：获取中";
+            Task.Factory.StartNew(() =>
+            {
+                is_busy = true;
+                if (updata_obj != null && updata_obj.mods.Count != 0)
+                {
+                    Action<int> action = (data) =>
+                    {
+                        foreach (KeyValuePair<string, updata_item> item in updata_obj.mods)
+                        {
+                            if (!get_ok.Contains(item.Key))
+                            {
+                                string a = get_md5(item.Value);
+                                if (a != "null")
+                                {
+                                    updata_obj.mods[item.Key].url = a;
+                                    get_ok.Add(item.Key);
+                                    Action<string> action1 = (data1) =>
+                                    {
+                                        for (int temp = 0; temp < listView_mods.Items.Count; temp++)
+                                        {
+                                            foreach (ListViewSubItem temp1 in listView_mods.Items[temp].SubItems)
+                                            {
+                                                if (temp1.Text == item.Key)
+                                                {
+                                                    listView_mods.Items[temp].SubItems[2].Text = data1;
+                                                }
+                                            }
+                                        }
+                                    };
+                                    Invoke(action1, a);
+                                }
+                            }
+                        }
+                        INFO.Text = "状态：等待操作";
+                        is_busy = false;
+                    };
+                    Invoke(action, 0);
+                }
+            });
         }
         private static Dictionary<string, string> tran_1_12 = new Dictionary<string, string>()
         {

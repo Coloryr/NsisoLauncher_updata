@@ -67,6 +67,7 @@ namespace NsisoLauncher_updata
             this.curseforge = new System.Windows.Forms.Button();
             this.mc_vision = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -374,11 +375,22 @@ namespace NsisoLauncher_updata
             this.label6.TabIndex = 27;
             this.label6.Text = "MC版本号";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(752, 357);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(73, 23);
+            this.button1.TabIndex = 29;
+            this.button1.Text = "更新MD5";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(947, 459);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.mc_vision);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.curseforge);
@@ -456,6 +468,7 @@ namespace NsisoLauncher_updata
         private System.Windows.Forms.Button curseforge;
         private System.Windows.Forms.TextBox mc_vision;
         private System.Windows.Forms.Label label6;
+        private Button button1;
     }
 }
 
