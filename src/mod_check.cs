@@ -168,8 +168,7 @@ namespace NsisoLauncher_updata
         private static List<string> tran_1_12_list = new List<string>()
         {
             "AppleCore", "BetterFps", "jehc", "MakeZoomZoom", "MCMultiPart",
-            "p455w0rdslib", "Rally+Health", "SelfControl", "BNBGamingCore",
-            "rftoolspower"
+            "Rally+Health", "SelfControl", "BNBGamingCore", "rftoolspower"
         };
     }
 }
