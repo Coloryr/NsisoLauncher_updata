@@ -102,6 +102,13 @@ namespace NsisoLauncher_updata
                     if (zp == null)
                     {
                         zip.Close();
+                        foreach (string name in tran_1_12_list)
+                        {
+                            if (mod.filename.Contains(name))
+                            {
+                                mod.name = name;
+                            }
+                        }
                         goto a;
                     }
                     Stream stream = zip.GetInputStream(zp);
@@ -161,7 +168,8 @@ namespace NsisoLauncher_updata
         private static List<string> tran_1_12_list = new List<string>()
         {
             "AppleCore", "BetterFps", "jehc", "MakeZoomZoom", "MCMultiPart",
-            "Rally+Health", "SelfControl", "BNBGamingCore", "rftoolspower"
+            "p455w0rdslib", "Rally+Health", "SelfControl", "BNBGamingCore",
+            "rftoolspower"
         };
     }
 }
