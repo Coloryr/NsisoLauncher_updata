@@ -252,6 +252,7 @@ namespace NsisoLauncher_updata
                 updata_obj.mods = new Dictionary<string, updata_item>(old_updata.mods);
                 updata_obj.scripts = new List<updata_item>(old_updata.scripts);
                 updata_obj.resourcepacks = new List<updata_item>(old_updata.resourcepacks);
+                updata_obj.config = new List<updata_item>(old_updata.config);
             }
             is_busy = false;
         }
