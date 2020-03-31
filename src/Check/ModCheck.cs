@@ -13,7 +13,7 @@ namespace NsisoLauncher_updata.Check
     {
         public Dictionary<string, UpdataItem> ReadModInfo(string path)
         {
-            path += @"\mods\";
+            path += @"\.minecraft\mods\";
             Dictionary<string, UpdataItem> list = new Dictionary<string, UpdataItem>();
             try
             {
@@ -97,7 +97,7 @@ namespace NsisoLauncher_updata.Check
                 mod.type = "模组";
                 mod.function = "add";
                 mod.check = checker.GetFileChecksum();
-                mod.url = ServerInfo.ServerLocal + @"/mods/" + mod.filename;
+                mod.url = ServerInfo.ServerLocal + @"/.minecraft/mods/" + mod.filename;
                 return mod;
             }
             catch

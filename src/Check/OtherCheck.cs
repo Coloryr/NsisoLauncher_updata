@@ -8,7 +8,7 @@ namespace NsisoLauncher_updata.Check
     {
         public List<UpdataItem> ReadOtherInfo(string path)
         {
-            path += @"\";
+            path += @"\.minecraft\";
             if (!Directory.Exists(path))
             {
                 return null;
@@ -23,7 +23,7 @@ namespace NsisoLauncher_updata.Check
                 mod.type = "配置";
                 mod.function = "add";
                 mod.name = mod.filename = a.Replace(path, "");
-                mod.url = ServerInfo.ServerLocal + @"/" + mod.filename;
+                mod.url = ServerInfo.ServerLocal + @"/.minecraft/" + mod.filename;
                 mod.check = checker.GetFileChecksum();
                 if (list.Contains(mod) == false)
                     list.Add(mod);

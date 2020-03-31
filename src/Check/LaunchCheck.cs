@@ -4,26 +4,28 @@ using System.IO;
 
 namespace NsisoLauncher_updata.Check
 {
-    class ResourcepacksCheck
+    class LaunchCheck
     {
-        public List<UpdataItem> ReadresourcepacksInfo(string path)
+        public List<UpdataItem> ReadLaunchrInfo(string path)
         {
-            path += @"\.minecraft\resourcepacks\";
+            path += @"\Config\";
             if (!Directory.Exists(path))
             {
-                return new List<UpdataItem>();
+                return null;
             }
             List<UpdataItem> list = new List<UpdataItem>();
-            string[] files = Directory.GetFiles(path, "*.zip");
+            string[] files = Directory.GetFiles(path);
             IChecker checker = new MD5Checker();
             foreach (string a in files)
             {
+                if (a.Contains("MainConfig.json"))
+                    continue;
                 checker.FilePath = a;
                 UpdataItem mod = new UpdataItem();
-                mod.type = "材质";
+                mod.type = "启动器配置";
                 mod.function = "add";
                 mod.name = mod.filename = a.Replace(path, "");
-                mod.url = ServerInfo.ServerLocal + @"/.minecraft/resourcepacks/" + mod.filename;
+                mod.url = ServerInfo.ServerLocal + @"/Config/" + mod.filename;
                 mod.check = checker.GetFileChecksum();
                 if (list.Contains(mod) == false)
                     list.Add(mod);

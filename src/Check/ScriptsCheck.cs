@@ -30,7 +30,7 @@ namespace NsisoLauncher_updata.Check
 
         public List<UpdataItem> ReadscriptsInfo(string path)
         {
-            path += @"\scripts\";
+            path += @"\.minecraft\scripts\";
             if (!Directory.Exists(path))
             {
                 return new List<UpdataItem>();
@@ -47,7 +47,7 @@ namespace NsisoLauncher_updata.Check
                     function = "add"
                 };
                 mod.name = mod.filename = file.Replace(path, "");
-                mod.url = ServerInfo.ServerLocal + @"/scripts/" + mod.filename;
+                mod.url = ServerInfo.ServerLocal + @"/.minecraft/scripts/" + mod.filename;
                 mod.check = checker.GetFileChecksum();
                 if (list.Contains(mod) == false)
                     list.Add(mod);

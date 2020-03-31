@@ -44,7 +44,7 @@ namespace NsisoLauncher_updata
             this.INFO = new System.Windows.Forms.Label();
             this.gen_json = new System.Windows.Forms.Button();
             this.re_mods = new System.Windows.Forms.Button();
-            this.mods_t = new System.Windows.Forms.TextBox();
+            this.modsT = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.chose_mods = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
@@ -52,10 +52,10 @@ namespace NsisoLauncher_updata
             this.label3 = new System.Windows.Forms.Label();
             this.old_json = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.old_mod = new System.Windows.Forms.Label();
-            this.old_resourcepacks = new System.Windows.Forms.Label();
-            this.old_scripts = new System.Windows.Forms.Label();
-            this.old_other = new System.Windows.Forms.Label();
+            this.OldMod = new System.Windows.Forms.Label();
+            this.OldResourcepacks = new System.Windows.Forms.Label();
+            this.oldScripts = new System.Windows.Forms.Label();
+            this.OldOther = new System.Windows.Forms.Label();
             this.new_other = new System.Windows.Forms.Label();
             this.new_scripts = new System.Windows.Forms.Label();
             this.new_resourcepacks = new System.Windows.Forms.Label();
@@ -64,8 +64,6 @@ namespace NsisoLauncher_updata
             this.old_json_open = new System.Windows.Forms.OpenFileDialog();
             this.old_json_clear = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.mc_vision = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -171,7 +169,7 @@ namespace NsisoLauncher_updata
             this.gen_json.TabIndex = 6;
             this.gen_json.Text = "生成json";
             this.gen_json.UseVisualStyleBackColor = true;
-            this.gen_json.Click += new System.EventHandler(this.gen_json_Click);
+            this.gen_json.Click += new System.EventHandler(this.GenJsonClick);
             // 
             // re_mods
             // 
@@ -181,14 +179,14 @@ namespace NsisoLauncher_updata
             this.re_mods.TabIndex = 7;
             this.re_mods.Text = "刷新资源";
             this.re_mods.UseVisualStyleBackColor = true;
-            this.re_mods.Click += new System.EventHandler(this.re_mods_Click);
+            this.re_mods.Click += new System.EventHandler(this.ReModsClick);
             // 
             // mods_t
             // 
-            this.mods_t.Location = new System.Drawing.Point(688, 111);
-            this.mods_t.Name = "mods_t";
-            this.mods_t.Size = new System.Drawing.Size(247, 21);
-            this.mods_t.TabIndex = 9;
+            this.modsT.Location = new System.Drawing.Point(688, 111);
+            this.modsT.Name = "mods_t";
+            this.modsT.Size = new System.Drawing.Size(247, 21);
+            this.modsT.TabIndex = 9;
             // 
             // label4
             // 
@@ -207,7 +205,7 @@ namespace NsisoLauncher_updata
             this.chose_mods.TabIndex = 10;
             this.chose_mods.Text = "选择资源";
             this.chose_mods.UseVisualStyleBackColor = true;
-            this.chose_mods.Click += new System.EventHandler(this.chose_mods_Click);
+            this.chose_mods.Click += new System.EventHandler(this.ChoseModsClick);
             // 
             // saveFileDialog1
             // 
@@ -239,7 +237,7 @@ namespace NsisoLauncher_updata
             this.old_json.TabIndex = 13;
             this.old_json.Text = "导入旧资源json";
             this.old_json.UseVisualStyleBackColor = true;
-            this.old_json.Click += new System.EventHandler(this.old_json_Click);
+            this.old_json.Click += new System.EventHandler(this.OldJsonClick);
             // 
             // label5
             // 
@@ -250,41 +248,41 @@ namespace NsisoLauncher_updata
             this.label5.TabIndex = 14;
             this.label5.Text = "旧资源文件：";
             // 
-            // old_mod
+            // OldMod
             // 
-            this.old_mod.AutoSize = true;
-            this.old_mod.Location = new System.Drawing.Point(686, 252);
-            this.old_mod.Name = "old_mod";
-            this.old_mod.Size = new System.Drawing.Size(59, 12);
-            this.old_mod.TabIndex = 15;
-            this.old_mod.Text = "模组：xxx";
+            this.OldMod.AutoSize = true;
+            this.OldMod.Location = new System.Drawing.Point(686, 252);
+            this.OldMod.Name = "OldMod";
+            this.OldMod.Size = new System.Drawing.Size(59, 12);
+            this.OldMod.TabIndex = 15;
+            this.OldMod.Text = "模组：xxx";
             // 
-            // old_resourcepacks
+            // OldResourcepacks
             // 
-            this.old_resourcepacks.AutoSize = true;
-            this.old_resourcepacks.Location = new System.Drawing.Point(686, 273);
-            this.old_resourcepacks.Name = "old_resourcepacks";
-            this.old_resourcepacks.Size = new System.Drawing.Size(71, 12);
-            this.old_resourcepacks.TabIndex = 16;
-            this.old_resourcepacks.Text = "材质包：xxx";
+            this.OldResourcepacks.AutoSize = true;
+            this.OldResourcepacks.Location = new System.Drawing.Point(686, 273);
+            this.OldResourcepacks.Name = "OldResourcepacks";
+            this.OldResourcepacks.Size = new System.Drawing.Size(71, 12);
+            this.OldResourcepacks.TabIndex = 16;
+            this.OldResourcepacks.Text = "材质包：xxx";
             // 
-            // old_scripts
+            // oldScripts
             // 
-            this.old_scripts.AutoSize = true;
-            this.old_scripts.Location = new System.Drawing.Point(813, 252);
-            this.old_scripts.Name = "old_scripts";
-            this.old_scripts.Size = new System.Drawing.Size(41, 12);
-            this.old_scripts.TabIndex = 17;
-            this.old_scripts.Text = "魔改：";
+            this.oldScripts.AutoSize = true;
+            this.oldScripts.Location = new System.Drawing.Point(813, 252);
+            this.oldScripts.Name = "oldScripts";
+            this.oldScripts.Size = new System.Drawing.Size(41, 12);
+            this.oldScripts.TabIndex = 17;
+            this.oldScripts.Text = "魔改：";
             // 
-            // old_other
+            // OldOther
             // 
-            this.old_other.AutoSize = true;
-            this.old_other.Location = new System.Drawing.Point(813, 273);
-            this.old_other.Name = "old_other";
-            this.old_other.Size = new System.Drawing.Size(83, 12);
-            this.old_other.TabIndex = 18;
-            this.old_other.Text = "其他资源：xxx";
+            this.OldOther.AutoSize = true;
+            this.OldOther.Location = new System.Drawing.Point(813, 273);
+            this.OldOther.Name = "OldOther";
+            this.OldOther.Size = new System.Drawing.Size(83, 12);
+            this.OldOther.TabIndex = 18;
+            this.OldOther.Text = "其他资源：xxx";
             // 
             // new_other
             // 
@@ -345,28 +343,11 @@ namespace NsisoLauncher_updata
             this.old_json_clear.TabIndex = 24;
             this.old_json_clear.Text = "清除旧资源json";
             this.old_json_clear.UseVisualStyleBackColor = true;
-            this.old_json_clear.Click += new System.EventHandler(this.old_json_clear_Click);
-            // 
-            // mc_vision
-            // 
-            this.mc_vision.Location = new System.Drawing.Point(688, 193);
-            this.mc_vision.Name = "mc_vision";
-            this.mc_vision.Size = new System.Drawing.Size(247, 21);
-            this.mc_vision.TabIndex = 28;
-            this.mc_vision.Text = "1.12";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(686, 176);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 12);
-            this.label6.TabIndex = 27;
-            this.label6.Text = "MC版本号";
+            this.old_json_clear.Click += new System.EventHandler(this.OldJsonClearClick);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(752, 357);
+            this.button1.Location = new System.Drawing.Point(862, 357);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(73, 23);
             this.button1.TabIndex = 29;
@@ -380,24 +361,22 @@ namespace NsisoLauncher_updata
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(947, 459);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.mc_vision);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.old_json_clear);
             this.Controls.Add(this.new_other);
             this.Controls.Add(this.new_scripts);
             this.Controls.Add(this.new_resourcepacks);
             this.Controls.Add(this.new_mod);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.old_other);
-            this.Controls.Add(this.old_scripts);
-            this.Controls.Add(this.old_resourcepacks);
-            this.Controls.Add(this.old_mod);
+            this.Controls.Add(this.OldOther);
+            this.Controls.Add(this.oldScripts);
+            this.Controls.Add(this.OldResourcepacks);
+            this.Controls.Add(this.OldMod);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.old_json);
             this.Controls.Add(this.mods_server);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.chose_mods);
-            this.Controls.Add(this.mods_t);
+            this.Controls.Add(this.modsT);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.re_mods);
             this.Controls.Add(this.gen_json);
@@ -432,7 +411,7 @@ namespace NsisoLauncher_updata
         private System.Windows.Forms.Label INFO;
         private System.Windows.Forms.Button gen_json;
         private System.Windows.Forms.Button re_mods;
-        private System.Windows.Forms.TextBox mods_t;
+        private System.Windows.Forms.TextBox modsT;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button chose_mods;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
@@ -441,10 +420,10 @@ namespace NsisoLauncher_updata
         private System.Windows.Forms.ColumnHeader type;
         private System.Windows.Forms.Button old_json;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label old_mod;
-        private System.Windows.Forms.Label old_resourcepacks;
-        private System.Windows.Forms.Label old_scripts;
-        private System.Windows.Forms.Label old_other;
+        private System.Windows.Forms.Label OldMod;
+        private System.Windows.Forms.Label OldResourcepacks;
+        private System.Windows.Forms.Label oldScripts;
+        private System.Windows.Forms.Label OldOther;
         private System.Windows.Forms.Label new_other;
         private System.Windows.Forms.Label new_scripts;
         private System.Windows.Forms.Label new_resourcepacks;
@@ -453,8 +432,6 @@ namespace NsisoLauncher_updata
         private System.Windows.Forms.OpenFileDialog old_json_open;
         private System.Windows.Forms.Button old_json_clear;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.Windows.Forms.TextBox mc_vision;
-        private System.Windows.Forms.Label label6;
         private Button button1;
     }
 }
