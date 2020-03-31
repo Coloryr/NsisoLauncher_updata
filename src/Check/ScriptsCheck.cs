@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace NsisoLauncher_updata
+namespace NsisoLauncher_updata.Check
 {
-    class scripts_check
+    class ScriptsCheck
     {
-        private List<string> getFileName(string path)
+        private List<string> GetFileName(string path)
         {
             List<string> files = new List<string>();
             DirectoryInfo root = new DirectoryInfo(path);
@@ -16,36 +16,38 @@ namespace NsisoLauncher_updata
             }
             return files;
         }
-        private List<string> getDirectory(string path)
+        private List<string> GetDirectory(string path)
         {
             List<string> files = new List<string>();
-            files.AddRange(getFileName(path));
+            files.AddRange(GetFileName(path));
             DirectoryInfo root = new DirectoryInfo(path);
             foreach (DirectoryInfo d in root.GetDirectories())
             {
-                files.AddRange(getDirectory(d.FullName));
+                files.AddRange(GetDirectory(d.FullName));
             }
             return files;
         }
 
-        public List<updata_item> ReadscriptsInfo(string path)
+        public List<UpdataItem> ReadscriptsInfo(string path)
         {
             path += @"\scripts\";
             if (!Directory.Exists(path))
             {
-                return new List<updata_item>();
+                return new List<UpdataItem>();
             }
-            List<updata_item> list = new List<updata_item>();
-            List<string> a = getDirectory(path);
+            List<UpdataItem> list = new List<UpdataItem>();
+            List<string> a = GetDirectory(path);
             IChecker checker = new MD5Checker();
             foreach (string file in a)
             {
                 checker.FilePath = file;
-                updata_item mod = new updata_item();
-                mod.type = "魔改";
-                mod.function = "add";
+                UpdataItem mod = new UpdataItem
+                {
+                    type = "魔改",
+                    function = "add"
+                };
                 mod.name = mod.filename = file.Replace(path, "");
-                mod.url = server_info.server_local + @"/scripts/" + mod.filename;
+                mod.url = ServerInfo.ServerLocal + @"/scripts/" + mod.filename;
                 mod.check = checker.GetFileChecksum();
                 if (list.Contains(mod) == false)
                     list.Add(mod);

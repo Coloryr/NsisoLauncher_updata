@@ -2,28 +2,28 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace NsisoLauncher_updata
+namespace NsisoLauncher_updata.Check
 {
-    class resourcepacks_check
+    class OtherCheck
     {
-        public List<updata_item> ReadresourcepacksInfo(string path)
+        public List<UpdataItem> ReadOtherInfo(string path)
         {
-            path += @"\resourcepacks\";
+            path += @"\";
             if (!Directory.Exists(path))
             {
-                return new List<updata_item>();
+                return null;
             }
-            List<updata_item> list = new List<updata_item>();
-            string[] files = Directory.GetFiles(path, "*.zip");
+            List<UpdataItem> list = new List<UpdataItem>();
+            string[] files = Directory.GetFiles(path);
             IChecker checker = new MD5Checker();
             foreach (string a in files)
             {
                 checker.FilePath = a;
-                updata_item mod = new updata_item();
-                mod.type = "材质";
+                UpdataItem mod = new UpdataItem();
+                mod.type = "配置";
                 mod.function = "add";
                 mod.name = mod.filename = a.Replace(path, "");
-                mod.url = server_info.server_local + @"/resourcepacks/" + mod.filename;
+                mod.url = ServerInfo.ServerLocal + @"/" + mod.filename;
                 mod.check = checker.GetFileChecksum();
                 if (list.Contains(mod) == false)
                     list.Add(mod);

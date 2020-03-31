@@ -64,7 +64,6 @@ namespace NsisoLauncher_updata
             this.old_json_open = new System.Windows.Forms.OpenFileDialog();
             this.old_json_clear = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.curseforge = new System.Windows.Forms.Button();
             this.mc_vision = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -196,9 +195,9 @@ namespace NsisoLauncher_updata
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(686, 94);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(53, 12);
+            this.label4.Size = new System.Drawing.Size(89, 12);
             this.label4.TabIndex = 8;
-            this.label4.Text = "资源目录";
+            this.label4.Text = "本地资源文件夹";
             // 
             // chose_mods
             // 
@@ -228,13 +227,13 @@ namespace NsisoLauncher_updata
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(686, 135);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 12);
+            this.label3.Size = new System.Drawing.Size(89, 12);
             this.label3.TabIndex = 11;
-            this.label3.Text = "服务器根目录";
+            this.label3.Text = "服务器地址目录";
             // 
             // old_json
             // 
-            this.old_json.Location = new System.Drawing.Point(831, 357);
+            this.old_json.Location = new System.Drawing.Point(721, 386);
             this.old_json.Name = "old_json";
             this.old_json.Size = new System.Drawing.Size(104, 23);
             this.old_json.TabIndex = 13;
@@ -348,16 +347,6 @@ namespace NsisoLauncher_updata
             this.old_json_clear.UseVisualStyleBackColor = true;
             this.old_json_clear.Click += new System.EventHandler(this.old_json_clear_Click);
             // 
-            // curseforge
-            // 
-            this.curseforge.Location = new System.Drawing.Point(698, 386);
-            this.curseforge.Name = "curseforge";
-            this.curseforge.Size = new System.Drawing.Size(127, 23);
-            this.curseforge.TabIndex = 25;
-            this.curseforge.Text = "获取curseforge下载";
-            this.curseforge.UseVisualStyleBackColor = true;
-            this.curseforge.Click += new System.EventHandler(this.curseforge_Click);
-            // 
             // mc_vision
             // 
             this.mc_vision.Location = new System.Drawing.Point(688, 193);
@@ -393,7 +382,6 @@ namespace NsisoLauncher_updata
             this.Controls.Add(this.button1);
             this.Controls.Add(this.mc_vision);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.curseforge);
             this.Controls.Add(this.old_json_clear);
             this.Controls.Add(this.new_other);
             this.Controls.Add(this.new_scripts);
@@ -465,7 +453,6 @@ namespace NsisoLauncher_updata
         private System.Windows.Forms.OpenFileDialog old_json_open;
         private System.Windows.Forms.Button old_json_clear;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.Windows.Forms.Button curseforge;
         private System.Windows.Forms.TextBox mc_vision;
         private System.Windows.Forms.Label label6;
         private Button button1;
