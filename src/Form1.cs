@@ -53,6 +53,7 @@ namespace NsisoLauncher_updata
                     UpdataOBJ.config = new OtherCheck().ReadOtherInfo(modsT.Text);
                     UpdataOBJ.resourcepacks = new ResourcepacksCheck().ReadresourcepacksInfo(modsT.Text);
                     UpdataOBJ.launch = new LaunchCheck().ReadLaunchrInfo(modsT.Text);
+                    UpdataOBJ.self = new LaunchSelfCheck().ReadLaunchrSelfInfo(modsT.Text);
                     Action<int> action = (data) =>
                     {
                         listView_mods.Items.Clear();
@@ -111,11 +112,22 @@ namespace NsisoLauncher_updata
                                 listView_mods.Items.Add(test);
                             }
                         }
+                        if (UpdataOBJ.self.Count != 0)
+                        {
+                            foreach (UpdataItem save in UpdataOBJ.self)
+                            {
+                                ListViewItem test = new ListViewItem(save.type);
+                                test.SubItems.Add(save.name);
+                                test.SubItems.Add(save.check);
+                                test.SubItems.Add(save.url);
+                                listView_mods.Items.Add(test);
+                            }
+                        }
                         INFO.Text = "状态：等待操作";
                         new_mod.Text = "模组：" + (UpdataOBJ.mods.Count != 0 ? "" + UpdataOBJ.mods.Count : "无");
                         new_scripts.Text = "魔改：" + (UpdataOBJ.scripts.Count != 0 ? "" + UpdataOBJ.scripts.Count : "无");
                         new_resourcepacks.Text = "材质包：" + (UpdataOBJ.resourcepacks.Count != 0 ? "" + UpdataOBJ.resourcepacks.Count : "无");
-                        int a = UpdataOBJ.config.Count + UpdataOBJ.launch.Count;
+                        int a = UpdataOBJ.config.Count + UpdataOBJ.launch.Count + UpdataOBJ.self.Count;
                         new_other.Text = "其他资源：" + (a != 0 ? "" + a : "无");
                     };
                     Invoke(action, 0);
@@ -226,11 +238,15 @@ namespace NsisoLauncher_updata
                 {
                     a += OldUpdata.launch.Count;
                 }
+                if (OldUpdata.self != null)
+                {
+                    a += OldUpdata.self.Count;
+                }
                 OldOther.Text = "其他资源：" + (a == 0 ? a.ToString() : "无");
                 packname_t.Text = OldUpdata.packname;
                 vision_t.Text = OldUpdata.Version;
                 listView_mods.Items.Clear();
-                if (OldUpdata.mods.Count != 0)
+                if (OldUpdata.mods?.Count != 0)
                 {
                     foreach (UpdataItem save in OldUpdata.mods.Values)
                     {
@@ -241,7 +257,7 @@ namespace NsisoLauncher_updata
                         listView_mods.Items.Add(test);
                     }
                 }
-                if (OldUpdata.scripts.Count != 0)
+                if (OldUpdata.scripts?.Count != 0)
                 {
                     foreach (UpdataItem save in OldUpdata.scripts)
                     {
@@ -252,7 +268,7 @@ namespace NsisoLauncher_updata
                         listView_mods.Items.Add(test);
                     }
                 }
-                if (OldUpdata.config.Count != 0)
+                if (OldUpdata.config?.Count != 0)
                 {
                     foreach (UpdataItem save in OldUpdata.config)
                     {
@@ -263,7 +279,7 @@ namespace NsisoLauncher_updata
                         listView_mods.Items.Add(test);
                     }
                 }
-                if (OldUpdata.resourcepacks.Count != 0)
+                if (OldUpdata.resourcepacks?.Count != 0)
                 {
                     foreach (UpdataItem save in OldUpdata.resourcepacks)
                     {
@@ -274,9 +290,20 @@ namespace NsisoLauncher_updata
                         listView_mods.Items.Add(test);
                     }
                 }
-                if (OldUpdata.launch.Count != 0)
+                if (OldUpdata.launch?.Count != 0)
                 {
                     foreach (UpdataItem save in OldUpdata.launch)
+                    {
+                        ListViewItem test = new ListViewItem(save.type);
+                        test.SubItems.Add(save.name);
+                        test.SubItems.Add(save.check);
+                        test.SubItems.Add(save.url);
+                        listView_mods.Items.Add(test);
+                    }
+                }
+                if (OldUpdata.self?.Count != 0)
+                {
+                    foreach (UpdataItem save in OldUpdata.self)
                     {
                         ListViewItem test = new ListViewItem(save.type);
                         test.SubItems.Add(save.name);
@@ -292,6 +319,7 @@ namespace NsisoLauncher_updata
                 UpdataOBJ.resourcepacks = new List<UpdataItem>(OldUpdata.resourcepacks);
                 UpdataOBJ.config = new List<UpdataItem>(OldUpdata.config);
                 UpdataOBJ.launch = new List<UpdataItem>(OldUpdata.launch);
+                UpdataOBJ.self = new List<UpdataItem>(OldUpdata.self);
             }
             is_busy = false;
         }

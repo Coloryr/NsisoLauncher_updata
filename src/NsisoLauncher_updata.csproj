@@ -68,6 +68,7 @@
     <Compile Include="Checker\SHA1Checker.cs" />
     <Compile Include="Checker\SHA256Checker.cs" />
     <Compile Include="Check\LaunchCheck.cs" />
+    <Compile Include="Check\LaunchSelfCheck.cs" />
     <Compile Include="Check\SaveOBJ.cs" />
     <Compile Include="Check\OtherCheck.cs" />
     <Compile Include="Form1.cs">
