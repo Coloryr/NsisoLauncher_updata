@@ -314,12 +314,18 @@ namespace NsisoLauncher_updata
                 }
                 UpdataOBJ.packname = OldUpdata.packname;
                 UpdataOBJ.Version = OldUpdata.Version;
-                UpdataOBJ.mods = new Dictionary<string, UpdataItem>(OldUpdata.mods);
-                UpdataOBJ.scripts = new List<UpdataItem>(OldUpdata.scripts);
-                UpdataOBJ.resourcepacks = new List<UpdataItem>(OldUpdata.resourcepacks);
-                UpdataOBJ.config = new List<UpdataItem>(OldUpdata.config);
-                UpdataOBJ.launch = new List<UpdataItem>(OldUpdata.launch);
-                UpdataOBJ.self = new List<UpdataItem>(OldUpdata.self);
+                if (OldUpdata.mods != null)
+                    UpdataOBJ.mods = new Dictionary<string, UpdataItem>(OldUpdata.mods);
+                if (OldUpdata.scripts != null)
+                    UpdataOBJ.scripts = new List<UpdataItem>(OldUpdata.scripts);
+                if (OldUpdata.resourcepacks != null)
+                    UpdataOBJ.resourcepacks = new List<UpdataItem>(OldUpdata.resourcepacks);
+                if (OldUpdata.config != null)
+                    UpdataOBJ.config = new List<UpdataItem>(OldUpdata.config);
+                if (OldUpdata.launch != null)
+                    UpdataOBJ.launch = new List<UpdataItem>(OldUpdata.launch);
+                if (OldUpdata.self != null)
+                    UpdataOBJ.self = new List<UpdataItem>(OldUpdata.self);
             }
             is_busy = false;
         }
