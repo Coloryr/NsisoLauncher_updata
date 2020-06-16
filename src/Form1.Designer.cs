@@ -65,6 +65,8 @@ namespace NsisoLauncher_updata
             this.old_json_clear = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.button1 = new System.Windows.Forms.Button();
+            this.LastVersion_t = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -181,17 +183,17 @@ namespace NsisoLauncher_updata
             this.re_mods.UseVisualStyleBackColor = true;
             this.re_mods.Click += new System.EventHandler(this.ReModsClick);
             // 
-            // mods_t
+            // modsT
             // 
-            this.modsT.Location = new System.Drawing.Point(688, 111);
-            this.modsT.Name = "mods_t";
+            this.modsT.Location = new System.Drawing.Point(688, 152);
+            this.modsT.Name = "modsT";
             this.modsT.Size = new System.Drawing.Size(247, 21);
             this.modsT.TabIndex = 9;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(686, 94);
+            this.label4.Location = new System.Drawing.Point(686, 135);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(89, 12);
             this.label4.TabIndex = 8;
@@ -214,7 +216,7 @@ namespace NsisoLauncher_updata
             // 
             // mods_server
             // 
-            this.mods_server.Location = new System.Drawing.Point(688, 152);
+            this.mods_server.Location = new System.Drawing.Point(688, 193);
             this.mods_server.Name = "mods_server";
             this.mods_server.Size = new System.Drawing.Size(247, 21);
             this.mods_server.TabIndex = 12;
@@ -223,7 +225,7 @@ namespace NsisoLauncher_updata
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(686, 135);
+            this.label3.Location = new System.Drawing.Point(686, 176);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(89, 12);
             this.label3.TabIndex = 11;
@@ -355,11 +357,30 @@ namespace NsisoLauncher_updata
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // LastVersion_t
+            // 
+            this.LastVersion_t.Location = new System.Drawing.Point(688, 111);
+            this.LastVersion_t.Name = "LastVersion_t";
+            this.LastVersion_t.Size = new System.Drawing.Size(247, 21);
+            this.LastVersion_t.TabIndex = 31;
+            this.LastVersion_t.Text = "1.0.0";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(686, 94);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(65, 12);
+            this.label6.TabIndex = 30;
+            this.label6.Text = "最低版本号";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(947, 459);
+            this.Controls.Add(this.LastVersion_t);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.old_json_clear);
             this.Controls.Add(this.new_other);
@@ -433,6 +454,8 @@ namespace NsisoLauncher_updata
         private System.Windows.Forms.Button old_json_clear;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private Button button1;
+        private TextBox LastVersion_t;
+        private Label label6;
     }
 }
 

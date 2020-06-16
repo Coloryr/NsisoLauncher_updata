@@ -170,6 +170,7 @@ namespace NsisoLauncher_updata
             {
                 UpdataOBJ.packname = packname_t.Text;
                 UpdataOBJ.Version = vision_t.Text;
+                UpdataOBJ.LastVersion = LastVersion_t.Text;
                 if (OldUpdata.mods != null)
                 {
                     Dictionary<string, UpdataItem> temp = new Dictionary<string, UpdataItem>(OldUpdata.mods);
@@ -226,6 +227,7 @@ namespace NsisoLauncher_updata
                 OldUpdata = json.ToObject<UpdataOBJ>();
                 packname_t.Text = OldUpdata.packname;
                 vision_t.Text = OldUpdata.Version;
+                LastVersion_t.Text = OldUpdata.LastVersion;
                 OldMod.Text = "模组：" + (OldUpdata.mods != null ? "" + OldUpdata.mods.Count : "无");
                 oldScripts.Text = "魔改：" + (OldUpdata.scripts != null ? "" + OldUpdata.scripts.Count : "无");
                 OldResourcepacks.Text = "材质包：" + (OldUpdata.resourcepacks != null ? "" + OldUpdata.resourcepacks.Count : "无");
@@ -245,6 +247,7 @@ namespace NsisoLauncher_updata
                 OldOther.Text = "其他资源：" + (a == 0 ? a.ToString() : "无");
                 packname_t.Text = OldUpdata.packname;
                 vision_t.Text = OldUpdata.Version;
+                LastVersion_t.Text = OldUpdata.LastVersion;
                 listView_mods.Items.Clear();
                 if (OldUpdata.mods?.Count != 0)
                 {
@@ -314,6 +317,7 @@ namespace NsisoLauncher_updata
                 }
                 UpdataOBJ.packname = OldUpdata.packname;
                 UpdataOBJ.Version = OldUpdata.Version;
+                UpdataOBJ.LastVersion = OldUpdata.LastVersion;
                 if (OldUpdata.mods != null)
                     UpdataOBJ.mods = new Dictionary<string, UpdataItem>(OldUpdata.mods);
                 if (OldUpdata.scripts != null)
